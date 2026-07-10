@@ -1,21 +1,103 @@
-MIT License
+<!DOCTYPE html>
+<html lang="pt-br">
 
-Copyright (c) 2026 BENFATTI PERSONAL CRED
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- end font awesome -->
+    <title>CONTATO | BENFATTI PERSONAL CRED</title>
+</head>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+<body>
+    <!-- header -->
+    <header style="background-image: url('img/background-contacto.jpg'); width: auto;">
+        <!-- container -->
+        <div class="container">
+            <!-- menu -->
+            <nav>
+                <!-- logo -->
+                <a href="index.html"> <!-- ao clicar na logo, sera direcionado a pagina ou recaregara -->
+                    <img src="img/logo.png" alt="logo" style="width: 300px;"> <!-- imagem logo -->
+                </a>
+                <!-- end logo -->
+                <ul class="ul"> <!-- botoes do menus do site -->
+                    <a href="index.html">Home</a>
+                    <a href="sobre.html">Sobre</a>
+                    <a href="servicos.html">Serviços</a>
+                    <a class="btn" href="contato.html">Contato</a>
+                    <div class="close-icon" onclick="closeMenu()">
+                        <i class="fa fa-times-circle"></i>
+                    </div>
+                </ul>
+                <div class="menu-icon" onclick="openMenu()">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </nav>
+            <!-- end menu -->
+            <section class="banner">
+                <div class="banner-text">
+                    <h1>CONTATO</h1>
+                    <p style="color: rgb(223, 201, 129, 0.8);">
+                        <strong>
+                        Conectando você aos seus maiores objetivos.
+                        </strong>
+                    </p>
+                </div>
+            </section>
+        </div>
+        <!-- end container -->
+    </header>
+    <!-- end header -->
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+    <section class="contato">
+        <div class="container">
+            <div class="contato-info">
+                <div class="lado-esquerdo-left-side">
+                    <div>
+                        <i class="fa fa-envelope-o"></i>
+                        <p>benfattipersonalcred@gmail.com</p>
+                    </div>
+                    <div>
+                        <i class="fa fa-whatsapp"></i>
+                        <p>(17) 99143 4590</p>
+                    </div>
+                </div>
+                <div class="lado-direito-right-side">
+                    <form action="">
+                        <input type="text" placeholder="Nome" required>
+                        <input type="email" placeholder="Email" required>
+                        <input type="text" placeholder="Assunto" required>
+                        <textarea cols="30" rows="10" placeholder="Sua mensagem" required></textarea>
+                        <button class="btn">Enviar mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+    <!-- footer -->
+    <footer class="footer">
+        <div class="conainer">
+            <div class="links">
+                <a href="https://www.facebook.com/profile.php?id=61591694632068"> <i class="fa fa-facebook"></i> </a>
+                <a href="https://www.instagram.com/benfattipersonalcred/?hl=pt-br"> <i class="fa fa-instagram"></i> </a>
+            </div>
+            <p>
+                Desenvolvido por benfattipersonalcred
+            </p>
+        </div>
+    </footer>
+    <!-- end footer -->
+
+    <!-- chamada arquivo js -->
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
