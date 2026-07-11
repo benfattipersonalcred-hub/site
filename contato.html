@@ -45,7 +45,7 @@
                     <h1>CONTATO</h1>
                     <p style="color: rgb(223, 201, 129, 0.8);">
                         <strong>
-                        Conectando você aos seus maiores objetivos.
+                        Conectando você aos seus maiores objectives.
                         </strong>
                     </p>
                 </div>
@@ -69,12 +69,13 @@
                     </div>
                 </div>
                 <div class="lado-direito-right-side">
-                    <form action="">
-                        <input type="text" placeholder="Nome" required>
-                        <input type="email" placeholder="Email" required>
-                        <input type="text" placeholder="Assunto" required>
-                        <textarea cols="30" rows="10" placeholder="Sua mensagem" required></textarea>
-                        <button class="btn">Enviar mensagem</button>
+                    <!-- ADICIONADO: ID no formulário e nos inputs para o JavaScript localizá-los -->
+                    <form id="form-contato">
+                        <input type="text" id="nome" placeholder="Nome" required>
+                        <input type="email" id="email" placeholder="Email" required>
+                        <input type="text" id="assunto" placeholder="Assunto" required>
+                        <textarea id="mensagem" cols="30" rows="10" placeholder="Sua mensagem" required></textarea>
+                        <button type="submit" class="btn">Enviar mensagem</button>
                     </form>
                 </div>
             </div>
@@ -98,6 +99,60 @@
     <!-- chamada arquivo js -->
     <script src="js/main.js"></script>
 
+    <!-- SCRIPT DE INTEGRAÇÃO COM O GOOGLE APP SCRIPT -->
+    <script>
+        // 1. Cole aqui a URL do App da Web gerada no seu Google Apps Script
+        const URL_API = "https://script.google.com/macros/s/AKfycbzNQiBLaeft4jqHGIqJ3HQW6yfDrduOU_UIoC_BgSa7VrTChu5jzZxP-9oYSlCSv8FI/exec"; 
+
+        const form = document.getElementById("form-contato");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede a página de recarregar
+
+            // Desativa o botão para evitar múltiplos envios
+            const btnEnviar = form.querySelector("button");
+            btnEnviar.disabled = true;
+            btnEnviar.innerText = "Enviando...";
+
+            // Captura os dados digitados no formulário
+            const dadosFormulario = {
+                action: "create",
+                id: Date.now().toString(), // Gera um ID único baseado na hora atual
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                assunto: document.getElementById("assunto").value,
+                mensagem: document.getElementById("mensagem").value
+            };
+
+            // Envia os dados para a API do Google Sheets
+            fetch(URL_API, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(dadosFormulario)
+            })
+            .then(res => res.json())
+            .then(resultado => {
+                if (resultado.success) {
+                    alert("Mensagem enviada com sucesso!");
+                    form.reset(); // Limpa os campos do formulário
+                } else {
+                    alert("Erro ao enviar: " + resultado.error);
+                }
+            })
+            .catch(erro => {
+                console.error("Erro na requisição:", erro);
+                alert("Ocorreu um erro ao conectar com o servidor.");
+            })
+            .finally(() => {
+                // Reativa o botão do formulário
+                btnEnviar.disabled = false;
+                btnEnviar.innerText = "Enviar mensagem";
+            });
+        });
+    </script>
 </body>
 
 </html>
