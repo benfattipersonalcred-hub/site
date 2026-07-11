@@ -16,6 +16,7 @@ body {
 section,
 footer {
     padding: 0px;
+    margin-top: 2%;
 }
 
 h3 {
@@ -155,7 +156,7 @@ nav .close-icon {
 }
 
 .faca-mais .faca-mais-text h3 {
-    font-size: 48px;
+    font-size: 56px;
     color: white;
 }
 
@@ -277,6 +278,10 @@ nav .close-icon {
 
 .footer p {
     color: rgb(223, 201, 129);
+}
+
+.footer .links{
+    padding: 2%;
 }
 
 /* pagina sobre */
@@ -484,7 +489,25 @@ nav .close-icon {
         flex-direction: column;
     }
 
+    .faca-mais .faca-mais-text, 
+    .faca-mais .faca-mais-img {
+        width: 100%;
+    }
 
+    /* pagina contato responsivo */
+
+    .contato .contato-info {
+        flex-direction: column-reverse;
+    }
+
+    .contato-info .lado-direito-right-side,
+    .contato-info .lado-esquerdo-left-side{
+        width: 100%;
+    }
+
+    .contato-info .lado-direito-right-side{
+        margin-bottom: 30px;
+    }
 
 }
 
