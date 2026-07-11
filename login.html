@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styleLogin.css">
+    <link rel="stylesheet" href="https://cloudflare.com"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>LOGIN | BENFATTI PERSONAL CRED</title>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <div class="login-header">
+            <a href="index.html">
+                <img src="img/logo.png" alt="BENFATTI PERSONAL CRED" class="logo">
+            </a>
+            <p>Conectando você aos seus maiores objetivos.</p>
+        </div>
+
+        <form id="form-login" class="login-form">
+            <div class="input-group">
+                <i class="fa fa-envelope input-icon"></i>
+                <input type="email" id="login-email" placeholder="E-mail de usuário" required>
+            </div>
+
+            <div class="input-group password-group">
+                <i class="fa fa-lock input-icon"></i>
+                <input type="password" id="login-password" placeholder="Sua senha" required>
+                <button type="button" id="toggle-password" class="toggle-password-btn">
+                    <i id="eye-icon" class="fa fa-eye"></i>
+                </button>
+            </div>
+
+            <div class="form-actions">
+                <label class="remember-me">
+                    <input type="checkbox"> Lembrar dispositivo
+                </label>
+                <a href="#" class="forgot-password">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="btn-login">Acessar Painel</button>
+        </form>
+
+        <div class="login-footer">
+            <a href="index.html"><i class="fa fa-arrow-left"></i> Voltar para a Home</a>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Lógica Visual do Olho da Senha ---
+        const togglePasswordButton = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('login-password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        togglePasswordButton.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+
+        // --- 2. Integração e Validação do Login ---
+        // COLE AQUI A NOVA URL QUE VOCÊ GEROU NO PASSO 1 DO APPS SCRIPT
+        const URL_API = "https://script.google.com/macros/s/AKfycbw6DpFvLX3GUQRgyN41ECr8pH1-IiiHHXm150wamt_JDTv20DYah2-jFNFbUQ-g50a4/exec"; 
+
+        const formLogin = document.getElementById("form-login");
+        const btnLogin = formLogin.querySelector(".btn-login");
+
+        formLogin.addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            // Bloqueia o botão enquanto valida no servidor
+            btnLogin.disabled = true;
+            btnLogin.innerText = "Verificando...";
+
+            const emailDigitado = document.getElementById("login-email").value;
+            const senhaDigitada = document.getElementById("login-password").value;
+
+            // Monta o objeto com a ação 'login'
+            const dadosLogin = {
+                action: "login",
+                email: emailDigitado,
+                senha: senhaDigitada
+            };
+
+            // Dispara a validação para o Google Sheets
+            fetch(URL_API, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(dadosLogin)
+            })
+            .then(res => res.json())
+            .then(resultado => {
+                if (resultado.success) {
+                    // Guarda o nome do usuário na sessão do navegador temporariamente
+                    sessionStorage.setItem("usuarioLogado", resultado.usuario.nome);
+                    
+                    alert("Bem-vindo(a), " + resultado.usuario.nome + "!");
+                    
+                    // Altere 'painel.html' para o nome da página restrita que você vai criar
+                    window.location.href = "painel.html"; 
+                } else {
+                    alert(resultado.error || "Erro desconhecido ao tentar fazer login.");
+                }
+            })
+            .catch(erro => {
+                console.error("Erro na validação:", erro);
+                alert("Erro ao conectar com o banco de dados.");
+            })
+            .finally(() => {
+                // Reativa o botão caso dê erro para o usuário tentar novamente
+                btnLogin.disabled = false;
+                btnLogin.innerText = "Acessar Painel";
+            });
+        });
+    </script>
+</body>
+</html>

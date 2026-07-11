@@ -1,0 +1,194 @@
+@import url('https://googleapis.com');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(223, 201, 129, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.login-header .logo {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.login-header p {
+    color: rgba(223, 201, 129, 0.8);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 35px;
+    letter-spacing: 0.5px;
+}
+
+/* Alterado: Definição padrão para os grupos de input */
+.login-form .input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.login-form .input-group .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.4); 
+    font-size: 1rem;
+    transition: color 0.3s;
+    z-index: 2;
+}
+
+.login-form .input-group input {
+    width: 100%;
+    padding: 14px 15px 14px 45px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.login-form .input-group input:focus {
+    border-color: rgb(223, 201, 129);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 8px rgba(223, 201, 129, 0.3);
+}
+
+.login-form .input-group input:focus + .input-icon {
+    color: rgb(223, 201, 129);
+}
+
+/* CORREÇÃO DO LAYOUT DA SENHA */
+.password-group {
+    position: relative;
+}
+
+/* Força o espaçamento à direita para o texto digitado não cobrir o olho */
+.password-group input {
+    padding-right: 45px !important;
+}
+
+/* Botão do olho posicionado de forma absoluta por cima do input */
+.toggle-password-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+    display: inline-block;
+    z-index: 3; /* z-index maior para garantir que fique visível na frente do input */
+    outline: none;
+    transition: color 0.3s ease;
+}
+
+.toggle-password-btn:hover {
+    color: rgb(223, 201, 129);
+}
+
+.toggle-password-btn:focus {
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 0.8rem;
+}
+
+.remember-me {
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.remember-me input {
+    accent-color: rgb(223, 201, 129);
+}
+
+.forgot-password {
+    color: rgb(223, 201, 129);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background-color: rgb(223, 201, 129);
+    border: none;
+    border-radius: 6px;
+    color: #0f172a;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #ffffff;
+    box-shadow: 0 5px 15px rgba(223, 201, 129, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.login-footer {
+    margin-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 20px;
+}
+
+.login-footer a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+}
+
+.login-footer a:hover {
+    color: rgb(223, 201, 129);
+}
