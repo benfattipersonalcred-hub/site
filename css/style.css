@@ -39,6 +39,10 @@ p {
     padding: 0 2%;
 }
 
+.container nav a img{
+    width: 250px;
+}
+
 .btn {
     background-color: rgb(0, 107, 0);
     color: rgb(223, 201, 129);
