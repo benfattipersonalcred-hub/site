@@ -192,3 +192,61 @@ body {
 .login-footer a:hover {
     color: rgb(223, 201, 129);
 }
+
+/* Estilização do botão Cadastrar-me */
+.btn-register {
+    width: 100%;
+    padding: 14px;
+    background-color: transparent; /* Fundo transparente para diferenciar do login */
+    border: 2px solid rgb(223, 201, 129); /* Borda dourada institucional */
+    border-radius: 6px;
+    color: rgb(223, 201, 129);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px; /* Cria o espaçamento exato abaixo do botão de acessar */
+    transition: all 0.3s ease;
+}
+
+/* Efeito Hover idêntico em comportamento aos botões do site */
+.btn-register:hover {
+    background-color: rgb(223, 201, 129);
+    color: #0f172a; /* Inverte a cor para o fundo escuro do tema */
+    box-shadow: 0 5px 15px rgba(223, 201, 129, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-register:active {
+    transform: translateY(0);
+}
+
+/* Estilização do botão Cadastrar-me */
+.btn-register {
+    width: 100%;
+    padding: 14px;
+    background-color: transparent; /* Fundo transparente para diferenciar do login */
+    border: 2px solid rgb(223, 201, 129); /* Borda dourada institucional */
+    border-radius: 6px;
+    color: rgb(223, 201, 129);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 15px; /* Cria o espaçamento exato abaixo do botão de acessar */
+    transition: all 0.3s ease;
+}
+
+/* Efeito Hover idêntico em comportamento aos botões do site */
+.btn-register:hover {
+    background-color: rgb(223, 201, 129);
+    color: #0f172a; /* Inverte a cor para o fundo escuro do tema */
+    box-shadow: 0 5px 15px rgba(223, 201, 129, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-register:active {
+    transform: translateY(0);
+}

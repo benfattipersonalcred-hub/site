@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/stylePainel.css">
+    <!-- Font awesome para consistência de ícones -->
+    <link rel="stylesheet" href="https://cloudflare.com"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>PAINEL DO CLIENTE | BENFATTI PERSONAL CRED</title>
+</head>
+
+<body>
+    <!-- SCRIPT DE SEGURANÇA: Bloqueia acesso sem login -->
+    <script>
+        if (!sessionStorage.getItem("usuarioLogado")) {
+            alert("Acesso negado. Por favor, faça login para acessar esta área.");
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <div class="panel-container">
+        <!-- MODIFICADO: Nova barra de navegação superior responsiva -->
+        <header class="navbar">
+            <div class="navbar-brand">
+                <a href="index.html">
+                    <img src="img/logo.png" alt="BENFATTI PERSONAL CRED" class="panel-logo">
+                </a>
+                <!-- Botão de menu hambúrguer para telas menores -->
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fa fa-bars" id="toggle-icon">MENU</i>
+                </button>
+            </div>
+            
+            <!-- Links do Menu que se alinham na direita ou colapsam no mobile -->
+            <nav class="navbar-menu" id="navbar-menu">
+                <a href="#" class="nav-item active"><i class="fa fa-dashboard"></i> Início</a>
+                <a href="#" class="nav-item"><i class="fa fa-file-text-o"></i> Minhas Simulações</a>
+                <a href="#" class="nav-item"><i class="fa fa-user-o"></i> Meus Dados</a>
+                <a href="#" class="nav-item"><i class="fa fa-envelope-o"></i> Suporte</a>
+                <button id="btn-logout" class="nav-logout"><i class="fa fa-sign-out"></i> Sair</button>
+            </nav>
+        </header>
+
+        <!-- Área Principal de Conteúdo -->
+        <main class="main-content">
+            <!-- Boas-vindas e Status do usuário -->
+            <div class="topbar-info">
+                <div class="welcome-msg">
+                    Olá, <strong id="user-name">Cliente</strong>! Seja bem-vindo ao seu painel.
+                </div>
+                <div class="user-status">
+                    <span class="status-badge"><i class="fa fa-circle"></i> Conta Ativa</span>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <section class="dashboard-body">
+                <div class="dashboard-header">
+                    <h1>Seu Resumo Financeiro</h1>
+                    <p>Acompanhe o andamento das suas solicitações de crédito.</p>
+                </div>
+
+                <!-- Cards de Informação -->
+                <div class="cards-grid">
+                    <div class="card status-analise">
+                        <div class="card-icon"><i class="fa fa-hourglass-half"></i></div>
+                        <div class="card-info">
+                            <h3>Em Análise</h3>
+                            <p class="card-value">01</p>
+                            <span class="card-detail">Simulação de Crédito</span>
+                        </div>
+                    </div>
+
+                    <div class="card status-aprovado">
+                        <div class="card-icon"><i class="fa fa-check-circle"></i></div>
+                        <div class="card-info">
+                            <h3>Aprovados</h3>
+                            <p class="card-value">00</p>
+                            <span class="card-detail">Pronto para contratação</span>
+                        </div>
+                    </div>
+
+                    <div class="card status-total">
+                        <div class="card-icon"><i class="fa fa-folder-open-o"></i></div>
+                        <div class="card-info">
+                            <h3>Total de Propostas</h3>
+                            <p class="card-value">01</p>
+                            <span class="card-detail">Histórico completo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Informativa Central -->
+                <div class="panel-section">
+                    <h2>Última Atualização</h2>
+                    <div class="timeline-box">
+                        <div class="timeline-item">
+                            <span class="timeline-date">Hoje</span>
+                            <div class="timeline-content">
+                                <h4>Proposta recebida</h4>
+                                <p>Sua solicitação inicial foi registrada com sucesso em nossa planilha e está aguardando análise da mesa de crédito. Entraremos em contato via WhatsApp em breve.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script de controle dinâmico -->
+    <script>
+        // Carrega nome na tela
+        const nomeUsuario = sessionStorage.getItem("usuarioLogado");
+        if (nomeUsuario) {
+            document.getElementById("user-name").innerText = nomeUsuario;
+        }
+
+        // Script para deslogar
+        document.getElementById("btn-logout").addEventListener("click", function() {
+            sessionStorage.removeItem("usuarioLogado");
+            window.location.href = "login.html";
+        });
+
+        // ADICIONADO: Lógica do Menu Responsivo (Hambúrguer)
+        const menuToggle = document.getElementById('menu-toggle');
+        const navbarMenu = document.getElementById('navbar-menu');
+        const toggleIcon = document.getElementById('toggle-icon');
+
+        menuToggle.addEventListener('click', function() {
+            navbarMenu.classList.toggle('expanded');
+            
+            // Alterna o ícone entre barras e X ao abrir/fechar
+            if (navbarMenu.classList.contains('expanded')) {
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-times');
+            } else {
+                toggleIcon.classList.remove('fa-times');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -13,6 +13,10 @@ body {
     background-color: rgb(0, 45, 0);
 }
 
+body .container nav a img{
+    width: 250px;
+}
+
 section,
 footer {
     padding: 0px;
@@ -83,9 +87,9 @@ nav ul {
 
 nav ul a {
     color: white;
-    margin: 0 25px;
+    margin: 0 16px;
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 12px;
     display: block;
 }
 

@@ -1,0 +1,339 @@
+@import url('https://googleapis.com');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #0f172a;
+    color: #f8fafc;
+    min-height: 100vh;
+}
+
+.panel-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* MODIFICADO: Estrutura da Navbar para PC */
+.navbar {
+    background-color: #1e293b;
+    border-bottom: 1px solid rgba(223, 201, 129, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 40px;
+    position: relative;
+    z-index: 10;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.panel-logo {
+    width: 240px;
+    height: auto;
+    display: block;
+}
+
+/* Esconde o botão do menu em computadores */
+.menu-toggle {
+    padding: 6px;
+    border-radius: 10px;
+    display: none;
+    background-color: rgba(17, 17, 59, 0.64);
+    border: none;
+    color: rgb(223, 201, 129);
+    font-size: 18px;
+    cursor: pointer;
+    outline: none;
+}
+
+.menu-toggle .fa.fa-bars {
+    width: 10px;
+    height: 10px;
+}
+
+/* Links alinhados à direita no PC */
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background-color: rgba(223, 201, 129, 0.1);
+    color: rgb(223, 201, 129);
+}
+
+.nav-logout {
+    background: transparent;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #ef4444;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-logout:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+/* Área de Informações Gerais pós navbar */
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+}
+
+.topbar-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.welcome-msg {
+    font-size: 0.95rem;
+}
+
+.welcome-msg strong {
+    color: rgb(223, 201, 129);
+}
+
+.status-badge {
+    background-color: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-badge i {
+    font-size: 0.55rem;
+}
+
+/* Dashboard Body e Layout de Cards */
+.dashboard-body {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.dashboard-header h1 {
+    font-size: 1.6rem;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.dashboard-header p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.card-info h3 {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.card-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.card-detail {
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+.status-analise .card-icon {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+}
+
+.status-aprovado .card-icon {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+.status-total .card-icon {
+    background-color: rgba(223, 201, 129, 0.1);
+    color: rgb(223, 201, 129);
+}
+
+.panel-section {
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.panel-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.timeline-box {
+    border-left: 2px solid rgba(223, 201, 129, 0.3);
+    padding-left: 20px;
+    margin-left: 5px;
+}
+
+.timeline-item {
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgb(223, 201, 129);
+}
+
+.timeline-date {
+    font-size: 0.75rem;
+    color: rgb(223, 201, 129);
+    font-weight: 600;
+}
+
+.timeline-content h4 {
+    font-size: 0.95rem;
+    margin: 2px 0 6px 0;
+}
+
+.timeline-content p {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* ==========================================================
+   MODIFICADO: REGRAS DE RESPONSIVIDADE PARA TELAS MENORES (MOBILE)
+   ========================================================== */
+@media (max-width: 868px) {
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px 20px;
+    }
+
+    .navbar-brand {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .panel-logo {
+        width: 190px;
+        /* Reduz tamanho da logo no celular */
+    }
+
+    /* Ativa o botão do menu hambúrguer */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Esconde a barra de menus por padrão no mobile */
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding-top: 15px;
+        gap: 5px;
+    }
+
+    /* Classe ativada via Javascript para expandir os botões em linha vertical */
+    .navbar-menu.expanded {
+        display: flex;
+    }
+
+    .nav-item {
+        width: 100%;
+        padding: 12px 15px;
+    }
+
+    .nav-logout {
+        width: 100%;
+        margin-top: 10px;
+        padding: 12px;
+        justify-content: center;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .topbar-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
