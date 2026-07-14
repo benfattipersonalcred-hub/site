@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redefinir Senha - Benfatti</title>
+    <link rel="stylesheet" href="css/styleLogin.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="img/logo.png" alt="Benfatti Personal Cred">
+        </div>
+
+        <div class="login-header">
+            <h2>Nova Senha</h2>
+            <p>Crie uma nova credencial forte para acessar seu painel</p>
+        </div>
+        
+        <form id="novaSenhaForm">
+            <div class="input-group">
+                <label for="novaSenha">Nova Senha</label>
+                <input type="password" id="novaSenha" placeholder="••••••••" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="confirmaNovaSenha">Confirmar Nova Senha</label>
+                <input type="password" id="confirmaNovaSenha" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" id="btnSalvarSenha" class="btn-login">Salvar Nova Senha</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('novaSenhaForm');
+            
+            // CONFIGURAÇÃO CENTRAL: Cole aqui a mesma URL do seu Apps Script principal
+            const URL_API_GOOGLE = 'SUA_URL_DO_APPS_SCRIPT_PRINCIPAL_AQUI';
+
+            // Captura as variáveis enviadas na URL do e-mail (?token=...&email=...)
+            const urlParams = new URLSearchParams(window.search || window.location.search);
+            const token = urlParams.get('token');
+            const email = urlParams.get('email');
+
+            if (!token || !email) {
+                alert('Parâmetros de recuperação inválidos. Solicite um novo link.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const novaSenha = document.getElementById('novaSenha').value;
+                const confirma = document.getElementById('confirmaNovaSenha').value;
+
+                if (novaSenha !== confirma) {
+                    alert('As senhas não coincidem!');
+                    return;
+                }
+
+                const btn = document.getElementById('btnSalvarSenha');
+                btn.textContent = 'Gravando senha...';
+                btn.disabled = true;
+
+                try {
+                    const payload = {
+                        acao: 'atualizarSenha',
+                        email: email,
+                        token: token,
+                        novaSenha: novaSenha
+                    };
+
+                    const response = await fetch(URL_API_GOOGLE, {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const resultado = await response.json();
+
+                    if (resultado.status === 'sucesso') {
+                        window.alert('Sua senha foi redefinida com sucesso! Você já pode acessar a sua conta.');
+                        window.location.href = 'login.html';
+                    } else {
+                        alert(resultado.mensagem);
+                        btn.textContent = 'Salvar Nova Senha';
+                        btn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('Erro de conexão ao tentar atualizar a senha.');
+                    btn.textContent = 'Salvar Nova Senha';
+                    btn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
