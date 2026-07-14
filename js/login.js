@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const recuperarForm = document.getElementById('recuperarForm');
 
     // CONFIGURAÇÃO CENTRAL: Cole aqui a URL gerada na Nova Implantação do seu Apps Script
-    const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycby-sZ30DhcOCYRVm-1jgXF-Mnv0M0Y6OLsgLAYlfK4xYXSpAnFSqGjEZ_wQjinqxjoCxg/exec';
+    const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycbyr7y1taxPYmCdL-8zuW6nACOfvMG-uVXMeTVbOPo1VQwHF7ClPJ5dIUuW9sQnwQolurw/exec';
 
     // 1. EVENTO DE LOGIN
     if (loginForm) {
