@@ -13,11 +13,21 @@
         </div>
 
         <div class="login-header">
-            <h2>Nova Senha</h2>
-            <p>Crie uma nova credencial forte para acessar seu painel</p>
+            <h2>Confirmar Código</h2>
+            <p>Insira o código enviado por e-mail e escolha sua nova senha</p>
         </div>
         
         <form id="novaSenhaForm">
+            <div class="input-group">
+                <label for="emailReset">E-mail Cadastrado</label>
+                <input type="email" id="emailReset" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="input-group">
+                <label for="codigoReset">Código de Verificação (6 dígitos)</label>
+                <input type="text" id="codigoReset" placeholder="123456" maxlength="6" required style="letter-spacing: 2px; font-weight: bold; text-align: center;">
+            </div>
+
             <div class="input-group">
                 <label for="novaSenha">Nova Senha</label>
                 <input type="password" id="novaSenha" placeholder="••••••••" required>
@@ -28,7 +38,7 @@
                 <input type="password" id="confirmaNovaSenha" placeholder="••••••••" required>
             </div>
             
-            <button type="submit" id="btnSalvarSenha" class="btn-login">Salvar Nova Senha</button>
+            <button type="submit" id="btnSalvarSenha" class="btn-login">Atualizar Senha</button>
         </form>
     </div>
 
@@ -36,22 +46,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('novaSenhaForm');
             
-            // CONFIGURAÇÃO CENTRAL: Cole aqui a URL exata da Nova Implantação do seu Apps Script principal
-            const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycbzVZtaEXorUW7qnxCDOejv8DrIlxE1ffm_ARnVCJ0ZyPuLkTD2cn6g38hKOxDUOGkY_Ig/exec';
-
-            // Captura as variáveis enviadas na URL do e-mail (?token=...&email=...)
-            const urlParams = new URLSearchParams(window.search || window.location.search);
-            const token = urlParams.get('token');
-            const email = urlParams.get('email');
-
-            if (!token || !email) {
-                alert('Parâmetros de recuperação inválidos ou ausentes. Solicite um novo link pelo painel de login.');
-                window.location.href = 'login.html';
-                return;
-            }
+            // CONFIGURAÇÃO CENTRAL: Cole aqui a URL exata da sua API do Apps Script principal
+            const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycby-sZ30DhcOCYRVm-1jgXF-Mnv0M0Y6OLsgLAYlfK4xYXSpAnFSqGjEZ_wQjinqxjoCxg/exec';
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                const email = document.getElementById('emailReset').value.trim();
+                const token = document.getElementById('codigoReset').value.trim();
                 const novaSenha = document.getElementById('novaSenha').value;
                 const confirma = document.getElementById('confirmaNovaSenha').value;
 
@@ -79,16 +80,12 @@
                         body: JSON.stringify(payload)
                     });
 
-                    if (!response.ok) {
-                        throw new Error('Falha de rede.');
-                    }
-
                     const resultado = await response.json();
 
                     if (resultado.status === 'sucesso') {
                         window.alert('Sua senha foi redefinida com sucesso! Você já pode acessar a sua conta com as novas credenciais.');
                         
-                        // Método de redirecionamento invisível altamente compatível com o GitHub Pages
+                        // Redirecionamento invisível compatível com GitHub Pages
                         const linkRetornoLogin = document.createElement('a');
                         linkRetornoLogin.href = 'login.html';
                         document.body.appendChild(linkRetornoLogin);
@@ -96,13 +93,13 @@
                         document.body.removeChild(linkRetornoLogin);
                     } else {
                         alert(resultado.mensagem);
-                        btn.textContent = 'Salvar Nova Senha';
+                        btn.textContent = 'Atualizar Senha';
                         btn.disabled = false;
                     }
                 } catch (error) {
                     console.error(error);
-                    alert('Erro de conexão ao tentar atualizar a senha. Verifique sua URL da API no código.');
-                    btn.textContent = 'Salvar Nova Senha';
+                    alert('Erro de conexão ao tentar atualizar a senha. Verifique a URL da API no código.');
+                    btn.textContent = 'Atualizar Senha';
                     btn.disabled = false;
                 }
             });
