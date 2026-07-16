@@ -10,6 +10,8 @@
     --cor-sucesso: #2ecc71;
     --cor-erro: #e74c3c;
     --cor-erro-hover: #c0392b;
+    --sidebar-largura: 260px;
+    --sidebar-recolhida: 80px;
 }
 
 * {
@@ -23,30 +25,66 @@ body {
     background-color: var(--cor-fundo-tela);
     color: var(--cor-texto-claro);
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .panel-container {
     display: flex;
     min-height: 100vh;
+    width: 100%;
 }
 
+.mobile-top-bar {
+    display: none;
+}
+
+/* --- SIDEBAR BASE (DESKTOP) --- */
 .sidebar {
-    width: 260px;
+    width: var(--sidebar-largura);
     background-color: var(--cor-fundo-card);
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--cor-borda);
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    width: 100%;
 }
 
 .sidebar-brand {
-    text-align: center;
-    margin-bottom: 3rem;
+    max-width: 140px;
+    width: 100%;
+    transition: opacity 0.2s ease;
 }
 
 .sidebar-brand img {
-    max-width: 160px;
+    width: 100%;
     height: auto;
+    display: block;
+}
+
+.btn-toggle-svg {
+    background: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 0.5rem !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: background-color 0.2s;
+}
+
+.btn-toggle-svg:hover {
+    background-color: rgba(223, 186, 107, 0.1) !important;
 }
 
 .sidebar-menu {
@@ -59,16 +97,37 @@ body {
 .menu-item {
     color: var(--cor-texto-mutado);
     text-decoration: none;
-    padding: 0.85rem 1.2rem;
+    padding: 0.85rem 1rem;
     border-radius: 8px;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    white-space: nowrap;
+}
+
+.menu-icon {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+}
+
+.menu-text {
+    display: inline-block;
+    transition: opacity 0.2s ease;
 }
 
 .menu-item:hover, .menu-item.active {
     background-color: var(--cor-botao);
     color: #07100b;
+}
+
+.sidebar-footer {
+    width: 100%;
 }
 
 .btn-logout {
@@ -84,12 +143,51 @@ body {
     text-transform: uppercase;
     font-size: 0.85rem;
     letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
 }
 
 .btn-logout:hover {
     background-color: var(--cor-erro-hover);
 }
 
+/* --- COMPORTAMENTO DA SIDEBAR RECOLHIDA (DESKTOP) --- */
+.panel-container.sidebar-collapsed .sidebar {
+    width: var(--sidebar-recolhida) !important;
+    padding: 1.5rem 0.5rem !important;
+}
+
+.panel-container.sidebar-collapsed .sidebar-brand {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    display: none !important;
+}
+
+.panel-container.sidebar-collapsed .sidebar-header {
+    justify-content: center !important;
+}
+
+.panel-container.sidebar-collapsed .menu-text {
+    display: none !important;
+}
+
+.panel-container.sidebar-collapsed .menu-item {
+    justify-content: center !important;
+    padding: 0.85rem !important;
+}
+
+.panel-container.sidebar-collapsed .btn-logout {
+    justify-content: center !important;
+    padding: 0.85rem !important;
+}
+
+.panel-container.sidebar-collapsed .btn-logout .menu-text {
+    display: none !important;
+}
+
+/* --- CONTEÚDO PRINCIPAL --- */
 .main-content {
     flex: 1;
     padding: 3rem;
@@ -182,13 +280,86 @@ body {
     font-size: 1rem;
 }
 
+/* --- MEDIA QUERY RESPONSIVA MOBILE CORRIGIDA --- */
 @media (max-width: 768px) {
     .panel-container {
-        flex-direction: column;
+        flex-direction: column !important;
+        position: relative !important;
     }
+
+    .mobile-top-bar {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        background-color: var(--cor-fundo-card) !important;
+        padding: 0.8rem 1.5rem !important;
+        border-bottom: 1px solid var(--cor-borda) !important;
+        width: 100% !important;
+        height: 65px !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 200 !important;
+    }
+
+    .mobile-logo {
+        max-width: 120px !important;
+    }
+
+    .mobile-logo img {
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+    }
+
     .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid var(--cor-borda);
+        position: absolute !important;
+        top: 65px !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 0 !important;
+        padding: 0 1.5rem !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        overflow: hidden !important;
+        opacity: 0 !important;
+        background-color: var(--cor-fundo-card) !important;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5) !important;
+        transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease !important;
+        z-index: 150 !important;
+    }
+
+    .sidebar .sidebar-header {
+        display: none !important;
+    }
+
+    /* ALTERADO: Modificado o height de fixo (250px) para auto para evitar bugs visuais de tamanho */
+    .panel-container.mobile-menu-open .sidebar {
+        height: auto !important;
+        padding: 1.5rem !important;
+        opacity: 1 !important;
+        border-bottom: 1px solid var(--cor-borda) !important;
+    }
+
+    .sidebar-menu {
+        display: flex !important;
+    }
+
+    .sidebar-footer {
+        display: block !important;
+        margin-top: 1rem !important;
+    }
+
+    .menu-text {
+        display: inline-block !important;
+    }
+
+    .menu-item {
+        justify-content: flex-start !important;
+        padding: 0.85rem 1rem !important;
+    }
+
+    .main-content {
+        padding: 2rem 1.5rem !important;
+        width: 100% !important;
     }
 }

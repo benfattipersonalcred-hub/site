@@ -7,20 +7,52 @@
     <link rel="stylesheet" href="css/stylePainel.css">
 </head>
 <body>
-    <div class="panel-container">
-        <!-- Barra Lateral de Navegação -->
-        <aside class="sidebar">
-            <!-- Logotipo Oficial da Benfatti na Barra Lateral -->
-            <div class="sidebar-brand">
-                <img src="img/logo.png" alt="Benfatti Personal Cred">
+    <div class="panel-container sidebar-collapsed" id="panelContainer">
+        
+        <!-- BARRA SUPERIOR EXCLUSIVA PARA CELULAR -->
+        <div class="mobile-top-bar">
+            <div class="mobile-logo">
+                <img src="img/logo.png" alt="Benfatti">
             </div>
+            <button id="btnToggleMobile" class="btn-toggle-svg" type="button">
+                <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#dfba6b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+
+        <!-- Barra Lateral de Navegação (Sidebar) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand" id="sidebarBrand">
+                    <img src="img/logo.png" alt="Benfatti Personal Cred">
+                </div>
+                <!-- Botão Toggle com SVG Nativo para Desktop -->
+                <button id="btnToggleDesktop" class="btn-toggle-svg" type="button">
+                    <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#dfba6b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+            
             <nav class="sidebar-menu">
-                <a href="#" class="menu-item active">📊 Visão Geral</a>
-                <a href="#" class="menu-item">📁 Meus Dados</a>
-                <a href="#" class="menu-item">⚙️ Configurações</a>
+                <a href="#" class="menu-item active">
+                    <span class="menu-icon">📊</span>
+                    <span class="menu-text">Visão Geral</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">📁</span>
+                    <span class="menu-text">Meus Dados</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <span class="menu-icon">⚙️</span>
+                    <span class="menu-text">Configurações</span>
+                </a>
             </nav>
+            
             <div class="sidebar-footer">
-                <button id="btnSair" class="btn-logout">🚪 Sair do Sistema</button>
+                <button id="btnSair" class="btn-logout">
+                    <span class="menu-icon">
+                        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                    </span>
+                    <span class="menu-text">Sair do Sistema</span>
+                </button>
             </div>
         </aside>
 
