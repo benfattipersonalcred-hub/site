@@ -38,7 +38,7 @@ body {
     display: none;
 }
 
-/* --- SIDEBAR BASE (DESKTOP) --- */
+/* --- SIDEBAR BASE --- */
 .sidebar {
     width: var(--sidebar-largura);
     background-color: var(--cor-fundo-card);
@@ -153,7 +153,7 @@ body {
     background-color: var(--cor-erro-hover);
 }
 
-/* --- COMPORTAMENTO DA SIDEBAR RECOLHIDA (DESKTOP) --- */
+/* --- SIDEBAR RECOLHIDA (DESKTOP) --- */
 .panel-container.sidebar-collapsed .sidebar {
     width: var(--sidebar-recolhida) !important;
     padding: 1.5rem 0.5rem !important;
@@ -280,7 +280,97 @@ body {
     font-size: 1rem;
 }
 
-/* --- MEDIA QUERY RESPONSIVA MOBILE CORRIGIDA --- */
+/* --- ESTILOS DO FORMULÁRIO DE CONFIGURAÇÕES INTERNAS (ADICIONADO) --- */
+.form-row-panel {
+    margin-bottom: 1.25rem;
+    width: 100%;
+}
+
+.flex-row-panel {
+    display: flex;
+    gap: 1rem;
+}
+
+.input-group-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+.flex-3 { flex: 3; }
+
+.input-group-panel label {
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--cor-texto-claro);
+    font-weight: 600;
+}
+
+.input-group-panel input {
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    color: var(--cor-texto-claro);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.input-group-panel input:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(223, 186, 107, 0.15);
+}
+
+.form-buttons-panel {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-panel-primary {
+    padding: 0.9rem 2rem;
+    background-color: var(--cor-botao);
+    border: none;
+    border-radius: 8px;
+    color: #07100b;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: all 0.2s ease;
+}
+
+.btn-panel-primary:hover {
+    background-color: var(--cor-botao-hover);
+    transform: translateY(-1px);
+}
+
+.btn-panel-secondary {
+    padding: 0.9rem 2rem;
+    background-color: transparent;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    color: var(--cor-texto-mutado);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: all 0.2s ease;
+}
+
+.btn-panel-secondary:hover {
+    border-color: var(--cor-erro);
+    color: var(--cor-erro);
+}
+
+/* --- RESPONSIVIDADE (MOBILE / TABLET) --- */
 @media (max-width: 768px) {
     .panel-container {
         flex-direction: column !important;
@@ -332,7 +422,6 @@ body {
         display: none !important;
     }
 
-    /* ALTERADO: Modificado o height de fixo (250px) para auto para evitar bugs visuais de tamanho */
     .panel-container.mobile-menu-open .sidebar {
         height: auto !important;
         padding: 1.5rem !important;
@@ -356,6 +445,11 @@ body {
     .menu-item {
         justify-content: flex-start !important;
         padding: 0.85rem 1rem !important;
+    }
+
+    .flex-row-panel {
+        flex-direction: column;
+        gap: 1rem;
     }
 
     .main-content {

@@ -25,22 +25,23 @@
                 <div class="sidebar-brand" id="sidebarBrand">
                     <img src="img/logo.png" alt="Benfatti Personal Cred">
                 </div>
-                <!-- Botão Toggle com SVG Nativo para Desktop -->
                 <button id="btnToggleDesktop" class="btn-toggle-svg" type="button">
                     <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#dfba6b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                 </button>
             </div>
             
             <nav class="sidebar-menu">
-                <a href="#" class="menu-item active">
+                <a href="#" class="menu-item active" id="abaVisaoGeral">
                     <span class="menu-icon">📊</span>
                     <span class="menu-text">Visão Geral</span>
                 </a>
-                <a href="#" class="menu-item">
-                    <span class="menu-icon">📁</span>
-                    <span class="menu-text">Meus Dados</span>
+                <a href="#" class="menu-item" id="abaFinancas">
+                    <span class="menu-icon">
+                        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                    </span>
+                    <span class="menu-text">Minhas Finanças</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="#" class="menu-item" id="abaConfiguracoes">
                     <span class="menu-icon">⚙️</span>
                     <span class="menu-text">Configurações</span>
                 </a>
@@ -61,31 +62,103 @@
             <header class="main-header">
                 <div class="user-welcome">
                     <h1>Olá, <span id="nomeUsuario">Cliente</span>!</h1>
-                    <p>Bem-vindo ao seu painel de controle exclusivo.</p>
+                    <p id="subtituloPainel">Bem-vindo ao seu painel de controle exclusivo.</p>
                 </div>
             </header>
 
-            <section class="dashboard-cards">
-                <div class="card">
-                    <h3>Status da Conta</h3>
-                    <p class="card-value status-active">Ativo</p>
-                </div>
-                <div class="card">
-                    <h3>E-mail Registrado</h3>
-                    <p id="emailUsuario" class="card-subvalue">seuemail@provedor.com</p>
-                </div>
-                <div class="card">
-                    <h3>Token de Sessão</h3>
-                    <p id="tokenUsuario" class="card-subvalue code-text">❌ Não Autenticado</p>
-                </div>
-            </section>
+            <!-- BLOCO 1: VISÃO GERAL (DASHBOARD) -->
+            <div id="conteudoVisaoGeral">
+                <section class="dashboard-cards">
+                    <div class="card">
+                        <h3>Status da Conta</h3>
+                        <p class="card-value status-active">Ativo</p>
+                    </div>
+                    <div class="card">
+                        <h3>E-mail Registrado</h3>
+                        <p id="emailUsuario" class="card-subvalue">seuemail@provedor.com</p>
+                    </div>
+                    <div class="card">
+                        <h3>Token de Sessão</h3>
+                        <p id="tokenUsuario" class="card-subvalue code-text">❌ Não Autenticado</p>
+                    </div>
+                </section>
 
-            <section class="data-section">
-                <div class="section-box">
-                    <h2>Informações da sua Planilha</h2>
-                    <p>Os dados da sua planilha individual gerada na pasta <strong>clientesCadastrados</strong> serão renderizados nesta área.</p>
-                </div>
-            </section>
+                <section class="data-section">
+                    <div class="section-box">
+                        <h2>Informações da sua Planilha</h2>
+                        <p>Os dados da sua planilha individual gerada na pasta <strong>clientesCadastrados</strong> serão renderizados nesta área.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- BLOCO 2: FORMULÁRIO DE CONFIGURAÇÕES -->
+            <div id="conteudoConfiguracoes" style="display: none;">
+                <section class="section-box">
+                    <h2>Alterar Meus Dados Cadastrais</h2>
+                    <p style="margin-bottom: 2rem;">Mantenha suas informações de contato sempre atualizadas.</p>
+                    
+                    <form id="formAlterarDados" class="panel-form">
+                        <div class="form-row-panel">
+                            <div class="input-group-panel">
+                                <label for="editNome">Nome Completo</label>
+                                <input type="text" id="editNome" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row-panel flex-row-panel">
+                            <!-- MODIFICADO: Campo de e-mail agora possui o atributo 'readonly' e estilo de bloqueio -->
+                            <div class="input-group-panel flex-2">
+                                <label for="editEmail">E-mail de Acesso (Não alterável)</label>
+                                <input type="email" id="editEmail" readonly style="background-color: rgba(255,255,255,0.05); color: var(--cor-texto-mutado); cursor: not-allowed; border-color: rgba(26, 53, 37, 0.5);">
+                                <span style="font-size: 0.75rem; color: var(--cor-botao); margin-top: 0.35rem; display: block; font-weight: 500;">O e-mail é a sua chave de acesso exclusiva e não pode ser modificado.</span>
+                            </div>
+                            <div class="input-group-panel flex-1">
+                                <label for="editTel">Telefone / WhatsApp</label>
+                                <input type="tel" id="editTel" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row-panel flex-row-panel">
+                            <div class="input-group-panel flex-3">
+                                <label for="editEndereco">Endereço (Rua/Av)</label>
+                                <input type="text" id="editEndereco" required>
+                            </div>
+                            <div class="input-group-panel flex-1">
+                                <label for="editNumero">Número</label>
+                                <input type="text" id="editNumero" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row-panel flex-row-panel">
+                            <div class="input-group-panel flex-2">
+                                <label for="editBairro">Bairro</label>
+                                <input type="text" id="editBairro" required>
+                            </div>
+                            <div class="input-group-panel flex-2">
+                                <label for="editCidade">Cidade</label>
+                                <input type="text" id="editCidade" required>
+                            </div>
+                            <div class="input-group-panel flex-1">
+                                <label for="editEstado">Estado</label>
+                                <input type="text" id="editEstado" maxlength="2" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row-panel">
+                            <div class="input-group-panel">
+                                <label for="editSenha">Nova Senha (Deixe em branco para não alterar)</label>
+                                <input type="password" id="editSenha" placeholder="Preencha apenas se desejar mudar">
+                            </div>
+                        </div>
+
+                        <div class="form-buttons-panel">
+                            <button type="button" id="btnCancelarEdicao" class="btn-panel-secondary">Cancelar</button>
+                            <button type="submit" id="btnSalvarEdicao" class="btn-panel-primary">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
         </main>
     </div>
 
