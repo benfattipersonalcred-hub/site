@@ -31,11 +31,11 @@
             </div>
             
             <nav class="sidebar-menu">
-                <a href="#" class="menu-item active" id="abaVisaoGeral">
+                <a href="painel.html" class="menu-item active" id="abaVisaoGeral">
                     <span class="menu-icon">📊</span>
                     <span class="menu-text">Visão Geral</span>
                 </a>
-                <a href="#" class="menu-item" id="abaFinancas">
+                <a href="minhasFinancas.html" class="menu-item" id="abaFinancas">
                     <span class="menu-icon">
                         <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                     </span>
@@ -66,7 +66,7 @@
                 </div>
             </header>
 
-            <!-- BLOCO 1: VISÃO GERAL (DASHBOARD) -->
+            <!-- TELA 1: VISÃO GERAL (ALTERADA CONFORME A SUA IMAGEM) -->
             <div id="conteudoVisaoGeral">
                 <section class="dashboard-cards">
                     <div class="card">
@@ -83,74 +83,45 @@
                     </div>
                 </section>
 
+                <!-- MODIFICADO: A área circulada na imagem agora renderiza os saldos dos bancos dinamicamente -->
                 <section class="data-section">
                     <div class="section-box">
-                        <h2>Informações da sua Planilha</h2>
-                        <p>Os dados da sua planilha individual gerada na pasta <strong>clientesCadastrados</strong> serão renderizados nesta área.</p>
+                        <h2>Saldos e Contas Ativas do Cliente</h2>
+                        <p style="color: var(--cor-texto-mutado); margin-bottom: 1.5rem;">Resumo consolidado do saldo atualizado obtido diretamente da sua planilha individual na pasta clientesCadastrados.</p>
+                        
+                        <!-- Caixa flexível onde o JavaScript injetará os bancos e saldos -->
+                        <div id="resumoSaldosHome" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                            <div style="color: var(--cor-texto-mutado); font-style: italic;">Carregando saldos da planilha...</div>
+                        </div>
                     </div>
                 </section>
             </div>
 
-            <!-- BLOCO 2: FORMULÁRIO DE CONFIGURAÇÕES -->
+            <!-- TELA 2: FORMULÁRIO DE CONFIGURAÇÕES -->
             <div id="conteudoConfiguracoes" style="display: none;">
                 <section class="section-box">
                     <h2>Alterar Meus Dados Cadastrais</h2>
                     <p style="margin-bottom: 2rem;">Mantenha suas informações de contato sempre atualizadas.</p>
-                    
                     <form id="formAlterarDados" class="panel-form">
-                        <div class="form-row-panel">
-                            <div class="input-group-panel">
-                                <label for="editNome">Nome Completo</label>
-                                <input type="text" id="editNome" required>
-                            </div>
-                        </div>
-                        
+                        <div class="form-row-panel"><div class="input-group-panel"><label for="editNome">Nome Completo</label><input type="text" id="editNome" required></div></div>
                         <div class="form-row-panel flex-row-panel">
-                            <!-- MODIFICADO: Campo de e-mail agora possui o atributo 'readonly' e estilo de bloqueio -->
                             <div class="input-group-panel flex-2">
                                 <label for="editEmail">E-mail de Acesso (Não alterável)</label>
                                 <input type="email" id="editEmail" readonly style="background-color: rgba(255,255,255,0.05); color: var(--cor-texto-mutado); cursor: not-allowed; border-color: rgba(26, 53, 37, 0.5);">
-                                <span style="font-size: 0.75rem; color: var(--cor-botao); margin-top: 0.35rem; display: block; font-weight: 500;">O e-mail é a sua chave de acesso exclusiva e não pode ser modificado.</span>
+                                <span style="font-size: 0.75rem; color: var(--cor-botao); margin-top: 0.35rem; display: block; font-weight: 500;">O e-mail não pode ser modificado por segurança.</span>
                             </div>
-                            <div class="input-group-panel flex-1">
-                                <label for="editTel">Telefone / WhatsApp</label>
-                                <input type="tel" id="editTel" required>
-                            </div>
+                            <div class="input-group-panel flex-1"><label for="editTel">Telefone / WhatsApp</label><input type="tel" id="editTel" required></div>
                         </div>
-
                         <div class="form-row-panel flex-row-panel">
-                            <div class="input-group-panel flex-3">
-                                <label for="editEndereco">Endereço (Rua/Av)</label>
-                                <input type="text" id="editEndereco" required>
-                            </div>
-                            <div class="input-group-panel flex-1">
-                                <label for="editNumero">Número</label>
-                                <input type="text" id="editNumero" required>
-                            </div>
+                            <div class="input-group-panel flex-3"><label for="editEndereco">Endereço (Rua/Av)</label><input type="text" id="editEndereco" required></div>
+                            <div class="input-group-panel flex-1"><label for="editNumero">Número</label><input type="text" id="editNumero" required></div>
                         </div>
-
                         <div class="form-row-panel flex-row-panel">
-                            <div class="input-group-panel flex-2">
-                                <label for="editBairro">Bairro</label>
-                                <input type="text" id="editBairro" required>
-                            </div>
-                            <div class="input-group-panel flex-2">
-                                <label for="editCidade">Cidade</label>
-                                <input type="text" id="editCidade" required>
-                            </div>
-                            <div class="input-group-panel flex-1">
-                                <label for="editEstado">Estado</label>
-                                <input type="text" id="editEstado" maxlength="2" required>
-                            </div>
+                            <div class="input-group-panel flex-2"><label for="editBairro">Bairro</label><input type="text" id="editBairro" required></div>
+                            <div class="input-group-panel flex-2"><label for="editCidade">Cidade</label><input type="text" id="editCidade" required></div>
+                            <div class="input-group-panel flex-1"><label for="editEstado">Estado</label><input type="text" id="editEstado" maxlength="2" required></div>
                         </div>
-
-                        <div class="form-row-panel">
-                            <div class="input-group-panel">
-                                <label for="editSenha">Nova Senha (Deixe em branco para não alterar)</label>
-                                <input type="password" id="editSenha" placeholder="Preencha apenas se desejar mudar">
-                            </div>
-                        </div>
-
+                        <div class="form-row-panel"><div class="input-group-panel"><label for="editSenha">Nova Senha (Deixe em branco para não alterar)</label><input type="password" id="editSenha" placeholder="Preencha apenas se desejar mudar"></div></div>
                         <div class="form-buttons-panel">
                             <button type="button" id="btnCancelarEdicao" class="btn-panel-secondary">Cancelar</button>
                             <button type="submit" id="btnSalvarEdicao" class="btn-panel-primary">Salvar Alterações</button>
@@ -161,7 +132,6 @@
 
         </main>
     </div>
-
     <script src="js/painel.js"></script>
 </body>
 </html>

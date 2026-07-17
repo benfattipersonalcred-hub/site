@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Finanças - Benfatti</title>
+    <link rel="stylesheet" href="css/stylePainel.css">
+</head>
+
+<body>
+    <div class="panel-container sidebar-collapsed" id="panelContainer">
+
+        <!-- BARRA SUPERIOR EXCLUSIVA PARA CELULAR -->
+        <div class="mobile-top-bar">
+            <div class="mobile-logo">
+                <img src="img/logo.png" alt="Benfatti">
+            </div>
+            <button id="btnToggleMobile" class="btn-toggle-svg" type="button">
+                <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#dfba6b" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Barra Lateral de Navegação (Sidebar) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand" id="sidebarBrand">
+                    <img src="img/logo.png" alt="Benfatti Personal Cred">
+                </div>
+                <button id="btnToggleDesktop" class="btn-toggle-svg" type="button">
+                    <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#dfba6b" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="painel.html" class="menu-item" id="abaVisaoGeral">
+                    <span class="menu-icon">📊</span>
+                    <span class="menu-text">Visão Geral</span>
+                </a>
+                <a href="minhasFinancas.html" class="menu-item active" id="abaFinancas">
+                    <span class="menu-icon">
+                        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="width: 20px; height: 20px;">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </span>
+                    <span class="menu-text">Minhas Finanças</span>
+                </a>
+                <a href="painel.html?aba=configuracoes" class="menu-item" id="abaConfiguracoes">
+                    <span class="menu-icon">⚙️</span>
+                    <span class="menu-text">Configurações</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="btnSair" class="btn-logout">
+                    <span class="menu-icon">
+                        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+                            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                            <line x1="12" y1="2" x2="12" y2="12"></line>
+                        </svg>
+                    </span>
+                    <span class="menu-text">Sair do Sistema</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="user-welcome">
+                    <h1>Olá, <span id="nomeUsuario">Cliente</span>!</h1>
+                    <p>Gerencie seu fluxo de caixa, saldos bancários e lançamentos reais.</p>
+                </div>
+            </header>
+
+            <!-- Cards de Indicadores Financeiros -->
+            <section class="dashboard-cards">
+                <div class="card">
+                    <h3>Saldo Geral Disponível</h3>
+                    <p class="card-value" id="resumoSaldoGeral">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Total Recebidos</h3>
+                    <p class="card-value status-active" id="resumoReceitas">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Total Contas Pagas</h3>
+                    <p class="card-value" style="color: var(--cor-erro);" id="resumoDespesas">R$ 0,00</p>
+                </div>
+            </section>
+
+            <!-- Botões Rápidos de Ação -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                <button class="btn-panel-primary" id="btnNovaReceita"
+                    style="background-color: var(--cor-sucesso); color: #fff;">+ Nova Receita</button>
+                <button class="btn-panel-primary" id="btnNovaDespesa"
+                    style="background-color: var(--cor-erro); color: #fff;">- Nova Despesa</button>
+                <button class="btn-panel-secondary" id="btnCadastrarConta"
+                    style="color: var(--cor-primaria); border-color: var(--cor-primaria);">💼 Cadastrar
+                    Banco/Carteira</button>
+            </div>
+
+            <!-- Área de Listagens (Duas Colunas) -->
+            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                <!-- Coluna da Esquerda: Saldos de Bancos/Carteira -->
+                <div class="section-box" style="flex: 1; min-width: 280px; height: max-content;">
+                    <h2>🏦 Meus Bancos e Contas</h2>
+                    <div id="listaContasBancarias"
+                        style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                        <!-- Alimentado via JS -->
+                    </div>
+                </div>
+                <!-- Coluna da Direita: Histórico Geral com Filtros e Exclusão -->
+                <div class="section-box" style="flex: 2; min-width: 320px;">
+                    <h2>🧾 Histórico de Lançamentos</h2>
+
+                    <!-- BARRA DE FILTROS ADICIONADA -->
+                    <div
+                        style="display: flex; gap: 0.8rem; margin-top: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--cor-borda);">
+                        <div style="flex: 1; min-width: 150px; display: flex; flex-direction: column; gap: 0.4rem;">
+                            <label style="font-size: 0.75rem; color: var(--cor-texto-mutado); font-weight: 600;">Buscar
+                                por texto</label>
+                            <input type="text" id="filtroTexto" placeholder="Ex: Mercado, Luz..."
+                                style="padding: 0.5rem; background: var(--cor-fundo-tela); border: 1px solid var(--cor-borda); border-radius: 6px; color: #fff; font-size: 0.85rem;">
+                        </div>
+                        <div style="width: 110px; display: flex; flex-direction: column; gap: 0.4rem;">
+                            <label
+                                style="font-size: 0.75rem; color: var(--cor-texto-mutado); font-weight: 600;">Tipo</label>
+                            <select id="filtroTipo"
+                                style="padding: 0.5rem; background: var(--cor-fundo-tela); border: 1px solid var(--cor-borda); border-radius: 6px; color: #fff; font-size: 0.85rem;">
+                                <option value="Todos">Todos</option>
+                                <option value="Receita">Receita</option>
+                                <option value="Despesa">Despesa</option>
+                            </select>
+                        </div>
+                        <div style="width: 130px; display: flex; flex-direction: column; gap: 0.4rem;">
+                            <label
+                                style="font-size: 0.75rem; color: var(--cor-texto-mutado); font-weight: 600;">De:</label>
+                            <input type="date" id="filtroDataInicio"
+                                style="padding: 0.5rem; background: var(--cor-fundo-tela); border: 1px solid var(--cor-borda); border-radius: 6px; color: #fff; font-size: 0.85rem;">
+                        </div>
+                        <div style="width: 130px; display: flex; flex-direction: column; gap: 0.4rem;">
+                            <label
+                                style="font-size: 0.75rem; color: var(--cor-texto-mutado); font-weight: 600;">Até:</label>
+                            <input type="date" id="filtroDataFim"
+                                style="padding: 0.5rem; background: var(--cor-fundo-tela); border: 1px solid var(--cor-borda); border-radius: 6px; color: #fff; font-size: 0.85rem;">
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;" id="tabelaExtrato">
+                            <thead>
+                                <tr
+                                    style="border-bottom: 2px solid var(--cor-borda); color: var(--cor-texto-mutado); font-size: 0.9rem;">
+                                    <th style="padding: 0.5rem;">Data</th>
+                                    <th style="padding: 0.5rem;">Descrição</th>
+                                    <th style="padding: 0.5rem;">Origem/Destino</th>
+                                    <th style="padding: 0.5rem; text-align: right;">Valor</th>
+                                    <th style="padding: 0.5rem; text-align: center; width: 50px;">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Injeção via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- MODAL FLUTUANTE -->
+        <div id="modalFinanceiro"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 300; align-items: center; justify-content: center; padding: 1rem;">
+            <div class="section-box" style="width: 100%; max-width: 450px; background-color: var(--cor-fundo-card);">
+                <h2 id="modalTitulo">Nova Movimentação</h2>
+
+                <form id="formMovimentacao"
+                    style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <input type="hidden" id="finTipo">
+                    <div class="input-group-panel">
+                        <label for="finDescricao" id="labelDescricao">Descrição</label>
+                        <input type="text" id="finDescricao" placeholder="Ex: Salário, Supermercado" required>
+                    </div>
+                    <div class="input-group-panel">
+                        <label for="finValor">Valor (R$)</label>
+                        <input type="number" step="0.01" id="finValor" placeholder="0.00" required>
+                    </div>
+                    <div class="input-group-panel" id="boxFinData">
+                        <label for="finData">Data do Lançamento</label>
+                        <input type="date" id="finData" required>
+                    </div>
+                    <div class="input-group-panel" id="boxFinMetodo">
+                        <label id="labelMetodo" for="finMetodo">Conta / Destino</label>
+                        <select id="finMetodo" required></select>
+                    </div>
+                    <div class="form-buttons-panel" style="margin-top: 1rem;">
+                        <button type="button" class="btn-panel-secondary" id="btnFecharModalFin">Cancelar</button>
+                        <button type="submit" class="btn-panel-primary">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script src="js/minhasFinancas.js"></script>
+</body>
+
+</html>
