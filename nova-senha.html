@@ -8,8 +8,11 @@
 </head>
 <body>
     <div class="login-container">
+        <!-- Logotipo Oficial com link clicável redirecionando para a Home -->
         <div class="login-logo">
-            <img src="img/logo.png" alt="Benfatti Personal Cred">
+            <a href="index.html">
+                <img src="img/logo.png" alt="Benfatti Personal Cred">
+            </a>
         </div>
 
         <div class="login-header">
@@ -42,68 +45,9 @@
         </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('novaSenhaForm');
-            
-            // CONFIGURAÇÃO CENTRAL: Cole aqui a URL exata da sua API do Apps Script principal
-            const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycbyr7y1taxPYmCdL-8zuW6nACOfvMG-uVXMeTVbOPo1VQwHF7ClPJ5dIUuW9sQnwQolurw/exec';
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('emailReset').value.trim();
-                const token = document.getElementById('codigoReset').value.trim();
-                const novaSenha = document.getElementById('novaSenha').value;
-                const confirma = document.getElementById('confirmaNovaSenha').value;
-
-                if (novaSenha !== confirma) {
-                    alert('Atenção: As senhas digitadas não coincidem!');
-                    return;
-                }
-
-                const btn = document.getElementById('btnSalvarSenha');
-                btn.textContent = 'Gravando senha...';
-                btn.disabled = true;
-
-                try {
-                    const payload = {
-                        acao: 'atualizarSenha',
-                        email: email,
-                        token: token,
-                        novaSenha: novaSenha
-                    };
-
-                    const response = await fetch(URL_API_GOOGLE, {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    const resultado = await response.json();
-
-                    if (resultado.status === 'sucesso') {
-                        window.alert('Sua senha foi redefinida com sucesso! Você já pode acessar a sua conta com as novas credenciais.');
-                        
-                        // Redirecionamento invisível compatível com GitHub Pages
-                        const linkRetornoLogin = document.createElement('a');
-                        linkRetornoLogin.href = 'login.html';
-                        document.body.appendChild(linkRetornoLogin);
-                        linkRetornoLogin.click();
-                        document.body.removeChild(linkRetornoLogin);
-                    } else {
-                        alert(resultado.mensagem);
-                        btn.textContent = 'Atualizar Senha';
-                        btn.disabled = false;
-                    }
-                } catch (error) {
-                    console.error(error);
-                    alert('Erro de conexão ao tentar atualizar a senha. Verifique a URL da API no código.');
-                    btn.textContent = 'Atualizar Senha';
-                    btn.disabled = false;
-                }
-            });
-        });
-    </script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/novaSenha.js"></script>
 </body>
 </html>

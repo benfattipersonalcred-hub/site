@@ -39,6 +39,8 @@ body {
 .cadastro-logo {
     text-align: center;
     margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
 }
 
 .cadastro-logo img {
@@ -99,7 +101,7 @@ body {
     border-radius: 8px;
     color: var(--cor-texto-claro);
     font-size: 0.95rem;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-group input:focus {
@@ -119,7 +121,7 @@ body {
     font-weight: 700;
     cursor: pointer;
     margin-top: 1rem;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -148,9 +150,14 @@ body {
     text-decoration: underline;
 }
 
+/* Regras de Responsividade Mobile */
 @media (max-width: 580px) {
     .flex-row {
         flex-direction: column;
         gap: 1rem;
+    }
+    
+    .flex-1, .flex-2, .flex-3 {
+        flex: 1 1 100% !important;
     }
 }

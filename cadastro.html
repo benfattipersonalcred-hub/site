@@ -8,9 +8,11 @@
 </head>
 <body>
     <div class="cadastro-container">
-        <!-- Logotipo Oficial da Benfatti -->
+        <!-- Logotipo Oficial da Benfatti com link clicável redirecionando para a Home -->
         <div class="cadastro-logo">
-            <img src="img/logo.png" alt="Benfatti Personal Cred">
+            <a href="index.html">
+                <img src="img/logo.png" alt="Benfatti Personal Cred">
+            </a>
         </div>
 
         <div class="cadastro-header">
@@ -23,26 +25,34 @@
             <div class="form-row">
                 <div class="input-group">
                     <label for="nome">Nome Completo</label>
-                    <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                    <input type="text" id="nome" name="nome" autocomplete="name" placeholder="Seu nome" required>
                 </div>
             </div>
 
             <div class="form-row flex-row">
                 <div class="input-group flex-2">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    <input type="email" id="email" name="email" autocomplete="username" placeholder="seu@email.com" required>
                 </div>
                 <div class="input-group flex-1">
                     <label for="tel">Tel / WhatsApp</label>
-                    <input type="tel" id="tel" name="tel" placeholder="(11) 99999-9999" required>
+                    <input type="tel" id="tel" name="tel" autocomplete="tel" placeholder="(11) 99999-9999" required>
+                </div>
+                <div class="input-group flex-2">
+                    <label for="dataNascimento">Data de Nascimento</label>
+                    <input type="date" id="dataNascimento" name="dataNascimento" required>
                 </div>
             </div>
 
             <!-- Endereço -->
             <div class="form-row flex-row">
                 <div class="input-group flex-3">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="cep" autocomplete="postal-code" placeholder="12345-678" required>
+                </div>
+                <div class="input-group flex-3">
                     <label for="endereco">Endereço (Rua/Av)</label>
-                    <input type="text" id="endereco" name="endereco" placeholder="Rua das Flores" required>
+                    <input type="text" id="endereco" name="endereco" autocomplete="street-address" placeholder="Rua das Flores" required>
                 </div>
                 <div class="input-group flex-1">
                     <label for="numero">Número</label>
@@ -53,41 +63,47 @@
             <div class="form-row flex-row">
                 <div class="input-group flex-2">
                     <label for="bairro">Bairro</label>
-                    <input type="text" id="bairro" name="bairro" placeholder="Centro" required>
+                    <input type="text" id="bairro" name="bairro" autocomplete="address-level2" placeholder="Centro" required>
                 </div>
                 <div class="input-group flex-2">
                     <label for="cidade">Cidade</label>
-                    <input type="text" id="cidade" name="cidade" placeholder="Sua Cidade" required>
+                    <input type="text" id="cidade" name="cidade" autocomplete="address-level2" placeholder="Sua Cidade" required>
                 </div>
                 <div class="input-group flex-1">
                     <label for="estado">Estado</label>
-                    <input type="text" id="estado" name="estado" placeholder="SP" maxlength="2" required>
+                    <input type="text" id="estado" name="estado" autocomplete="address-level1" placeholder="SP" maxlength="2" required>
                 </div>
             </div>
 
-            <!-- Segurança (ALTERADO: Aplicação de caixas flexíveis e olhos em vetores SVG nativos) -->
+            <!-- Segurança (Aplicação de caixas flexíveis e olhos em vetores SVG nativos) -->
             <div class="form-row flex-row">
                 <div class="input-group">
                     <label for="senha">Senha</label>
                     <div style="display: flex; align-items: center; background-color: var(--cor-fundo-tela); border: 1px solid var(--cor-borda); border-radius: 8px; padding-right: 1.2rem;">
-                        <input type="password" id="senha" name="senha" placeholder="••••••••" required style="border: none; background: transparent; width: 100%; margin: 0; box-shadow: none; padding: 0.85rem 1.2rem; color: var(--cor-texto-claro); font-size: 0.95rem;">
+                        <input type="password" id="senha" name="senha" autocomplete="new-password" placeholder="••••••••" required style="border: none; background: transparent; width: 100%; margin: 0; box-shadow: none; padding: 0.85rem 1.2rem; color: var(--cor-texto-claro); font-size: 0.95rem;">
                         <div id="toggleSenha1" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; z-index: 20;">
-                            <svg id="svgOlho1" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#8fa096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            <svg id="svgOlho1" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#8fa096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
                         </div>
                     </div>
                 </div>
                 <div class="input-group">
                     <label for="confirmaSenha">Confirmar Senha</label>
                     <div style="display: flex; align-items: center; background-color: var(--cor-fundo-tela); border: 1px solid var(--cor-borda); border-radius: 8px; padding-right: 1.2rem;">
-                        <input type="password" id="confirmaSenha" name="confirmaSenha" placeholder="••••••••" required style="border: none; background: transparent; width: 100%; margin: 0; box-shadow: none; padding: 0.85rem 1.2rem; color: var(--cor-texto-claro); font-size: 0.95rem;">
+                        <input type="password" id="confirmaSenha" name="confirmaSenha" autocomplete="new-password" placeholder="••••••••" required style="border: none; background: transparent; width: 100%; margin: 0; box-shadow: none; padding: 0.85rem 1.2rem; color: var(--cor-texto-claro); font-size: 0.95rem;">
                         <div id="toggleSenha2" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; z-index: 20;">
-                            <svg id="svgOlho2" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#8fa096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            <svg id="svgOlho2" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#8fa096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <button type="submit" class="btn-cadastro">Finalizar Cadastro</button>
+            <button type="button" class="btn-cadastro">Finalizar Cadastro</button>
         </form>
         
         <div class="cadastro-footer">
@@ -95,35 +111,9 @@
         </div>
     </div>
 
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/cadastro.js"></script>
-
-    <!-- LÓGICA DE INTERAÇÃO DOS OLHOS SVG NO CADASTRO -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const olhoAberto = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
-            const olhoFechado = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
-
-            function configurarToggleSenhaSVG(idContainer, idCampo, idSvg) {
-                const container = document.getElementById(idContainer);
-                const campo = document.getElementById(idCampo);
-                const svg = document.getElementById(idSvg);
-                
-                if (container && campo && svg) {
-                    container.addEventListener('click', () => {
-                        if (campo.getAttribute('type') === 'password') {
-                            campo.setAttribute('type', 'text');
-                            svg.innerHTML = olhoFechado;
-                        } else {
-                            campo.setAttribute('type', 'password');
-                            svg.innerHTML = olhoAberto;
-                        }
-                    });
-                }
-            }
-
-            configurarToggleSenhaSVG('toggleSenha1', 'senha', 'svgOlho1');
-            configurarToggleSenhaSVG('toggleSenha2', 'confirmaSenha', 'svgOlho2');
-        });
-    </script>
 </body>
 </html>

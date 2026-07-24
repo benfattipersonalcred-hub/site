@@ -126,6 +126,10 @@ body {
     color: #07100b;
 }
 
+.menu-item:hover svg, .menu-item.active svg {
+    stroke: #07100b !important;
+}
+
 .sidebar-footer {
     width: 100%;
 }
@@ -280,7 +284,7 @@ body {
     font-size: 1rem;
 }
 
-/* --- ESTILOS DO FORMULÁRIO DE CONFIGURAÇÕES INTERNAS (ADICIONADO) --- */
+/* --- FORMULÁRIO DE CONFIGURAÇÕES INTERNAS --- */
 .form-row-panel {
     margin-bottom: 1.25rem;
     width: 100%;
@@ -296,10 +300,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-
-.flex-1 { flex: 1; }
-.flex-2 { flex: 2; }
-.flex-3 { flex: 3; }
 
 .input-group-panel label {
     margin-bottom: 0.5rem;
@@ -369,7 +369,6 @@ body {
     border-color: var(--cor-erro);
     color: var(--cor-erro);
 }
-
 /* --- RESPONSIVIDADE (MOBILE / TABLET) --- */
 @media (max-width: 768px) {
     .panel-container {
@@ -456,4 +455,53 @@ body {
         padding: 2rem 1.5rem !important;
         width: 100% !important;
     }
+    
+    .flex-1, .flex-2, .flex-3 {
+        flex: 1 1 100% !important;
+    }
+}
+
+/* --- COMPONENTES COMPLEMENTARES: MÓDULO FINANCEIRO --- */
+.banco-item-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.banco-item-box:hover {
+    transform: translateX(4px);
+    border-color: var(--cor-primaria);
+}
+
+.banco-item-box span {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+#tabelaExtrato tr {
+    border-bottom: 1px solid var(--cor-borda);
+    transition: background-color 0.2s ease;
+}
+
+#tabelaExtrato tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+#tabelaExtrato th, #tabelaExtrato td {
+    padding: 0.85rem 0.5rem;
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.btn-deletar-transacao:hover {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+}
+
+.btn-deletar-transacao:hover svg {
+    stroke: #ff6b6b !important;
 }

@@ -122,7 +122,7 @@ body {
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    transition: all 0.2s;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .btn-login:hover {
@@ -137,7 +137,7 @@ body {
     color: var(--cor-texto-mutado);
 }
 
-/* ESTILOS DO POP-UP FLUTUANTE (MODAL) */
+/* ESTILOS DO POP-UP FLUTUANTE (MODAL BLINDADO) */
 .modal-container {
     display: none;
     position: fixed;
@@ -153,7 +153,10 @@ body {
     padding: 1rem;
 }
 
-.modal-container.active { display: flex; }
+/* Coexistência segura caso o JS utilize injeção de classe ativo */
+.modal-container.active { 
+    display: flex !important; 
+}
 
 .modal-content {
     background-color: var(--cor-fundo-card);
@@ -190,6 +193,7 @@ body {
     color: var(--cor-texto-mutado);
     font-size: 2rem;
     cursor: pointer;
+    line-height: 1;
 }
 
 .btn-close:hover { color: var(--cor-primaria); }
@@ -199,4 +203,44 @@ body {
     font-size: 0.9rem;
     line-height: 1.5;
     margin-bottom: 1.5rem;
+}
+
+/* Media Queries para Responsividade Mobile */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+        border-radius: 12px;
+    }
+
+    .login-logo img {
+        max-width: 140px;
+    }
+
+    .login-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .login-header p {
+        font-size: 0.85rem;
+    }
+
+    .input-group input {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-login {
+        padding: 0.85rem;
+        font-size: 0.95rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .modal-header h3 {
+        font-size: 1.2rem;
+    }
 }
