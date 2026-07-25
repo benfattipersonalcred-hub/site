@@ -2,7 +2,14 @@
     const session = AUTH.requireSession();
     if (!session) return;
 
+    const adminEmails = ['admin@benfatti.com.br', 'tacio@benfatti.com.br'];
     const { nome: usuarioNome, email: usuarioEmail, token: usuarioToken } = session;
+
+    // Mostrar link Admin apenas para administradores
+    const abaAdmin = document.getElementById('abaAdmin');
+    if (abaAdmin && adminEmails.includes((usuarioEmail || '').toLowerCase())) {
+        abaAdmin.style.display = 'flex';
+    }
     const nomeUsuario = document.getElementById('nomeUsuario');
     const emailUsuario = document.getElementById('emailUsuario');
     const tokenUsuario = document.getElementById('tokenUsuario');
