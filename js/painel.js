@@ -90,45 +90,8 @@
         };
     }
 
-    function adjustShiftedProfile(profile) {
-        if (!profile || typeof profile !== 'object') return profile;
-
-        const looksLikeText = value => typeof value === 'string' && /[A-Za-zÀ-ú]/.test(value);
-        const isEmail = value => typeof value === 'string' && /\S+@\S+\.\S+/.test(value);
-        const isPhone = value => typeof value === 'string' && /^[+]?[0-9]{8,}$/.test(value.replace(/[^0-9]/g, ''));
-        const looksLikeDateString = value => typeof value === 'string' && /GMT|Horário|UTC|\d{2}\/\d{2}\/\d{4}|\d{4}-\d{2}-\d{2}/.test(value);
-        const looksLikeCep = value => typeof value === 'string' && /\d{5}[- ]?\d{3}/.test(value);
-
-        if (profile.nome && profile.email && profile.tel && profile.dataNasc && profile.cep && profile.endereco && profile.numero && profile.bairro && profile.cidade && profile.estado) {
-            const nomeIsId = /^[0-9]+$/.test(String(profile.nome).trim());
-            const emailIsName = looksLikeText(profile.email) && !isEmail(profile.email);
-            const telIsEmail = isEmail(profile.tel);
-            const dataNascIsPhone = isPhone(profile.dataNasc);
-            const cepIsDate = looksLikeDateString(profile.cep);
-            const enderecoIsCep = looksLikeCep(profile.endereco);
-            const numeroIsAddress = looksLikeText(profile.numero);
-            const bairroIsNumber = /^[0-9]+$/.test(String(profile.bairro).trim());
-
-            if (nomeIsId && emailIsName && telIsEmail && dataNascIsPhone && cepIsDate && enderecoIsCep && numeroIsAddress && bairroIsNumber) {
-                return {
-                    nome: profile.email,
-                    email: profile.tel,
-                    tel: profile.dataNasc,
-                    dataNasc: profile.cep,
-                    cep: profile.endereco,
-                    endereco: profile.numero,
-                    numero: profile.bairro,
-                    bairro: profile.cidade,
-                    cidade: profile.estado,
-                    estado: profile.estado
-                };
-            }
-        }
-        return profile;
-    }
-
     function preencherDadosPerfil(dados) {
-        const profile = adjustShiftedProfile(normalizeProfilePayload(dados));
+        const profile = normalizeProfilePayload(dados);
 
         if (document.getElementById('editNome')) document.getElementById('editNome').value = profile.nome || '';
         if (document.getElementById('editEmail')) document.getElementById('editEmail').value = profile.email || usuarioEmail || '';
