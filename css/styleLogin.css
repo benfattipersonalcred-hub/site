@@ -1,0 +1,265 @@
+:root {
+    --cor-fundo-tela: #07100b;
+    --cor-fundo-card: #0f2016;
+    --cor-primaria: #dfba6b;
+    --cor-botao: #c5a059;
+    --cor-botao-hover: #b08c47;
+    --cor-texto-claro: #ffffff;
+    --cor-texto-mutado: #8fa096;
+    --cor-borda: #1a3525;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--cor-fundo-tela);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--cor-texto-claro);
+}
+
+.login-container {
+    background-color: var(--cor-fundo-card);
+    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--cor-borda);
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.login-logo img {
+    max-width: 180px;
+    height: auto;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h2 {
+    font-size: 1.6rem;
+    color: var(--cor-primaria);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.login-header p {
+    color: var(--cor-texto-mutado);
+    font-size: 0.9rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--cor-texto-claro);
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    color: var(--cor-texto-claro);
+    font-size: 0.95rem;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(223, 186, 107, 0.15);
+}
+
+/* Campo de senha com ícone de olho (mesmo tamanho do campo email) */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.password-wrapper:focus-within {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(223, 186, 107, 0.15);
+}
+
+.password-wrapper input {
+    width: 100%;
+    border: none !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    padding: 0.85rem 3rem 0.85rem 1.2rem;
+    color: #07100b;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.password-wrapper input:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.password-wrapper .toggle-eye {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    z-index: 20;
+}
+
+/* Garante que ambos os campos de senha (com e sem autofill) tenham fundo branco */
+.password-wrapper input:-webkit-autofill,
+.password-wrapper input:-webkit-autofill:hover,
+.password-wrapper input:-webkit-autofill:focus,
+.password-wrapper input:-webkit-autofill:active {
+    -webkit-text-fill-color: #07100b;
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+    box-shadow: 0 0 0px 1000px #ffffff inset;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: #07100b;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.forgot-password, .login-footer a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.forgot-password:hover, .login-footer a:hover {
+    color: var(--cor-texto-claro);
+    text-decoration: underline;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: var(--cor-botao);
+    border: none;
+    border-radius: 8px;
+    color: #07100b;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-login:hover {
+    background-color: var(--cor-botao-hover);
+    transform: translateY(-1px);
+}
+
+.login-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--cor-texto-mutado);
+}
+
+/* ESTILOS DO POP-UP FLUTUANTE (MODAL BLINDADO) */
+.modal-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(7, 16, 11, 0.85);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+/* Coexistência segura caso o JS utilize injeção de classe ativo */
+.modal-container.active { 
+    display: flex !important; 
+}
+
+.modal-content {
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda);
+    padding: 2.5rem;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    animation: abrirModal 0.25s ease-out;
+}
+
+@keyframes abrirModal {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-header h3 {
+    color: var(--cor-primaria);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    color: var(--cor-texto-mutado);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.btn-close:hover { color: var(--cor-primaria); }
+
+.modal-instruction {
+    color: var(--cor-texto-mutado);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}

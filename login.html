@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Benfatti</title>
+    <link rel="stylesheet" href="css/styleLogin.css">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logotipo Oficial com link clicável redirecionando para a Home -->
+        <div class="login-logo">
+            <a href="index.html">
+                <img src="img/logo.png" alt="Benfatti Personal Cred">
+            </a>
+        </div>
+
+        <div class="login-header">
+            <h2>Acessar Painel</h2>
+            <p>Insira suas credenciais para continuar</p>
+        </div>
+        
+        <form id="loginForm" class="login-form">
+            <div class="input-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="username" required>
+            </div>
+            
+            <!-- Uso de SVG nativo para forçar a renderização do olho sem depender de CDNs -->
+            <div class="input-group">
+                <label for="senha">Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" required>
+                    <div id="toggleSenhaLogin" class="toggle-eye">
+                        <svg id="svgOlho" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#8fa096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="#" class="forgot-password" id="linkEsqueceu">Esqueceu a senha?</a>
+            </div>
+            
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+        
+        <div class="login-footer">
+            <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+            
+            <!-- Link de retorno limpo e sem emojis -->
+            <div style="margin-top: 1.5rem; border-top: 1px solid var(--cor-borda); padding-top: 1.2rem;">
+                <a href="index.html" style="color: var(--cor-texto-mutado); text-decoration: none; font-size: 0.85rem; font-weight: 500;" onmouseover="this.style.color='var(--cor-primaria)'" onmouseout="this.style.color='var(--cor-texto-mutado)'">
+                    Voltar para a Página Inicial
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POP-UP: Recuperação de Senha -->
+    <div id="modalRecuperar" class="modal-container" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Recuperar Senha</h3>
+                <button id="btnFecharModal" class="btn-close">&times;</button>
+            </div>
+            <p class="modal-instruction">Insira o e-mail cadastrado abaixo. Enviaremos um código verificador de 6 dígitos direto para a sua caixa de entrada para validar sua identidade com segurança.</p>
+            <form id="recuperarForm">
+                <div class="input-group">
+                    <label for="emailRecuperar">E-mail Cadastrado</label>
+                    <input type="email" id="emailRecuperar" placeholder="seu@email.com" required>
+                </div>
+                <button type="submit" id="btnEnviarRecuperar" class="btn-login">Enviar Solicitação</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script>
+    
+    <!-- LÓGICA DE INTERAÇÃO DO OLHO SVG E COMPORTAMENTO DO MODAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const containerOlho = document.getElementById('toggleSenhaLogin');
+            const campoSenha = document.getElementById('senha');
+            const svgOlho = document.getElementById('svgOlho');
+
+            // Desenhos dos olhos em SVG (Aberto e Fechado)
+            const olhoAberto = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            const olhoFechado = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+
+            if (containerOlho && campoSenha && svgOlho) {
+                containerOlho.addEventListener('click', () => {
+                    if (campoSenha.getAttribute('type') === 'password') {
+                        campoSenha.setAttribute('type', 'text');
+                        svgOlho.innerHTML = olhoFechado;
+                    } else {
+                        campoSenha.setAttribute('type', 'password');
+                        svgOlho.innerHTML = olhoAberto;
+                    }
+                });
+            }
+
+            // Controle de abertura/fechamento do Modal de Recuperação de Senha
+            const modal = document.getElementById('modalRecuperar');
+            const btnAbrir = document.getElementById('linkEsqueceu');
+            const btnFechar = document.getElementById('btnFecharModal');
+
+            if (modal && btnAbrir && btnFechar) {
+                btnAbrir.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.style.display = 'flex';
+                });
+
+                btnFechar.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+
+                // Fecha o modal se o usuário clicar na área escura de fora
+                window.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

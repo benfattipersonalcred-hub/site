@@ -1,0 +1,223 @@
+:root {
+    --cor-fundo-tela: #07100b;
+    --cor-fundo-card: #0f2016;
+    --cor-primaria: #dfba6b;
+    --cor-botao: #c5a059;
+    --cor-botao-hover: #b08c47;
+    --cor-texto-claro: #ffffff;
+    --cor-texto-mutado: #8fa096;
+    --cor-borda: #1a3525;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--cor-fundo-tela);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--cor-texto-claro);
+    padding: 2rem 1rem;
+}
+
+.cadastro-container {
+    background-color: var(--cor-fundo-card);
+    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 650px;
+    border: 1px solid var(--cor-borda);
+}
+
+.cadastro-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.cadastro-logo img {
+    max-width: 180px;
+    height: auto;
+}
+
+.cadastro-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cadastro-header h2 {
+    font-size: 1.6rem;
+    color: var(--cor-primaria);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.cadastro-header p {
+    color: var(--cor-texto-mutado);
+    font-size: 0.9rem;
+}
+
+.form-row {
+    margin-bottom: 1.25rem;
+    width: 100%;
+}
+
+.flex-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+.flex-3 { flex: 3; }
+
+.input-group label {
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--cor-texto-claro);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    background-color: var(--cor-fundo-tela);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    color: var(--cor-texto-claro);
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(223, 186, 107, 0.15);
+}
+
+/* Campo de senha com ícone de olho (fundo branco uniforme nos dois campos) */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.password-wrapper:focus-within {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(223, 186, 107, 0.15);
+}
+
+.password-wrapper input {
+    width: 100%;
+    border: none !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    padding: 0.85rem 3rem 0.85rem 1.2rem;
+    color: #07100b;
+    font-size: 0.95rem;
+    outline: none;
+    margin: 0;
+}
+
+.password-wrapper input:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.password-wrapper .toggle-eye {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    z-index: 20;
+}
+
+/* Garante que ambos os campos de senha (com e sem autofill) tenham fundo branco */
+.password-wrapper input:-webkit-autofill,
+.password-wrapper input:-webkit-autofill:hover,
+.password-wrapper input:-webkit-autofill:focus,
+.password-wrapper input:-webkit-autofill:active {
+    -webkit-text-fill-color: #07100b;
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+    box-shadow: 0 0 0px 1000px #ffffff inset;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: #07100b;
+}
+
+.btn-cadastro {
+    width: 100%;
+    padding: 0.9rem;
+    background-color: var(--cor-botao);
+    border: none;
+    border-radius: 8px;
+    color: #07100b;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-cadastro:hover {
+    background-color: var(--cor-botao-hover);
+    transform: translateY(-1px);
+}
+
+.cadastro-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--cor-texto-mutado);
+}
+
+.cadastro-footer a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.cadastro-footer a:hover {
+    color: var(--cor-texto-claro);
+    text-decoration: underline;
+}
+
+/* Regras de Responsividade Mobile */
+@media (max-width: 580px) {
+    .flex-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .flex-1, .flex-2, .flex-3 {
+        flex: 1 1 100% !important;
+    }
+}

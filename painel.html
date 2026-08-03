@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Cliente - Benfatti</title>
+    <link rel="stylesheet" href="css/stylePainel.css">
+</head>
+
+<body>
+    <div class="panel-container sidebar-collapsed" id="panelContainer">
+
+        <!-- BARRA SUPERIOR EXCLUSIVA PARA CELULAR -->
+        <div class="mobile-top-bar">
+            <div class="mobile-logo">
+                <img src="img/logo.png" alt="Benfatti">
+            </div>
+            <button id="btnToggleMobile" class="btn-toggle-svg" type="button">
+                <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#dfba6b" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" style="width: 28px; height: 28px;">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Barra Lateral de Navegação (Sidebar) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand" id="sidebarBrand">
+                    <img src="img/logo.png" alt="Benfatti Personal Cred">
+                </div>
+                <button id="btnToggleDesktop" class="btn-toggle-svg" type="button">
+                    <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#dfba6b" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" id="abaVisaoGeral">
+                    <span class="menu-icon">📊</span>
+                    <span class="menu-text">Visão Geral</span>
+                </a>
+                <a href="minhasFinancas.html" class="menu-item" id="abaFinancas">
+                    <span class="menu-icon">
+                        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="width: 20px; height: 20px;">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </span>
+                    <span class="menu-text">Minhas Finanças</span>
+                </a>
+                <a href="#" class="menu-item" id="abaConfiguracoes">
+                    <span class="menu-icon">⚙️</span>
+                    <span class="menu-text">Configurações</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="btnSair" class="btn-logout">
+                    <span class="menu-icon">
+                        <svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+                            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                            <line x1="12" y1="2" x2="12" y2="12"></line>
+                        </svg>
+                    </span>
+                    <span class="menu-text">Sair do Sistema</span>
+                </button>
+            </div>
+        </aside>
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="user-welcome">
+                    <h1>Olá, <span id="nomeUsuario">Cliente</span>!</h1>
+                    <p id="subtituloPainel">Bem-vindo ao seu painel de controle exclusivo.</p>
+                </div>
+            </header>
+
+            <!-- TELA 1: VISÃO GERAL -->
+            <div id="conteudoVisaoGeral">
+                <section class="dashboard-cards">
+                    <div class="card">
+                        <h3>Status da Conta</h3>
+                        <p class="card-value status-active">Ativo</p>
+                    </div>
+                    <div class="card">
+                        <h3>E-mail Registrado</h3>
+                        <p id="emailUsuario" class="card-subvalue">seuemail@provedor.com</p>
+                    </div>
+                    <div class="card">
+                        <h3>Token de Sessão</h3>
+                        <p id="tokenUsuario" class="card-subvalue code-text">❌ Não Autenticado</p>
+                    </div>
+                </section>
+
+                <section class="data-section">
+                    <div class="section-box">
+                        <h2>Saldos e Contas Ativas do Cliente</h2>
+                        <p style="color: var(--cor-texto-mutado); margin-bottom: 1.5rem;">Resumo consolidado do saldo
+                            atualizado obtido diretamente da sua planilha individual na pasta clientesCadastrados.</p>
+
+                        <!-- Caixa flexível onde o JavaScript injetará os bancos e saldos -->
+                        <div id="resumoSaldosHome"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+                            <div style="color: var(--cor-texto-mutado); font-style: italic;">Carregando saldos da
+                                planilha...</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- TELA 2: FORMULÁRIO DE CONFIGURAÇÕES -->
+            <div id="conteudoConfiguracoes" style="display: none;">
+                <section class="section-box">
+                    <h2>Alterar Meus Dados Cadastrais</h2>
+                    <p style="margin-bottom: 2rem;">Mantenha suas informações de contato sempre atualizadas.</p>
+                    <form id="formAlterarDados" class="panel-form">
+                        <div class="form-row-panel">
+                            <div class="input-group-panel">
+                                <label for="editNome">Nome Completo</label>
+                                <input type="text" id="editNome" required>
+                            </div>
+                        </div>
+                        <div class="form-row-panel flex-row-panel">
+                            <div class="input-group-panel flex-2">
+                                <label for="editEmail">E-mail de Acesso (Não alterável)</label>
+                                <input type="email" id="editEmail" readonly
+                                    style="background-color: rgba(255,255,255,0.05); color: var(--cor-texto-mutado); cursor: not-allowed; border-color: rgba(26, 53, 37, 0.5);">
+                                <span
+                                    style="font-size: 0.75rem; color: #dfba6b; margin-top: 0.35rem; display: block; font-weight: 500;">O
+                                    e-mail não pode ser modificado por segurança.</span>
+                            </div>
+                            <div class="input-group-panel flex-1">
+                                <label for="editTel">Telefone / WhatsApp</label>
+                                <input type="tel" id="editTel" required>
+                            </div>
+                        </div>
+                        <div class="form-row-panel flex-row-panel">
+                            <div class="input-group-panel flex-2">
+                                <label for="editCep">CEP</label>
+                                <input type="text" id="editCep" name="cep" autocomplete="postal-code" placeholder="12345-678" required>
+                            </div>
+                            <div class="input-group-panel flex-2">
+                                <label for="editDataNascimento">Data de Nascimento</label>
+                                <input type="date" id="editDataNascimento" name="dataNascimento" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row-panel flex-row-panel">
+                            <div class="input-group-panel flex-3">
+                                <label for="editEndereco">Endereço (Rua/Av)</label>
+                                <input type="text" id="editEndereco" required>
+                            </div>
+                            <div class="input-group-panel flex-1">
+                                <label for="editNumero">Número</label>
+                                <input type="text" id="editNumero" required>
+                            </div>
+                        </div>
+                        <div class="form-row-panel flex-row-panel">
+                            <div class="input-group-panel flex-2">
+                                <label for="editBairro">Bairro</label>
+                                <input type="text" id="editBairro" required>
+                            </div>
+                            <div class="input-group-panel flex-2">
+                                <label for="editCidade">Cidade</label>
+                                <input type="text" id="editCidade" required>
+                            </div>
+                            <div class="input-group-panel flex-1">
+                                <label for="editEstado">Estado</label>
+                                <input type="text" id="editEstado" maxlength="2" required>
+                            </div>
+                        </div>
+                        <div class="form-row-panel">
+                            <div class="input-group-panel">
+                                <label for="editSenha">Nova Senha (Deixe em branco para não alterar)</label>
+                                <div class="password-wrapper-panel">
+                                    <input type="password" id="editSenha" placeholder="Preencha apenas se desejar mudar">
+                                    <div id="toggleSenhaPainel" class="toggle-eye-panel">
+                                        <svg id="svgOlhoPainel" xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="#8fa096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-buttons-panel">
+                            <button type="button" id="btnCancelarEdicao" class="btn-panel-secondary">Cancelar</button>
+                            <button type="submit" id="btnSalvarEdicao" class="btn-panel-primary">Salvar
+                                Alterações</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/painel.js"></script>
+
+    <script>
+        // Toggle do olho no campo Nova Senha das Configurações
+        document.addEventListener('DOMContentLoaded', () => {
+            const containerOlhoPainel = document.getElementById('toggleSenhaPainel');
+            const campoSenhaPainel = document.getElementById('editSenha');
+            const svgOlhoPainel = document.getElementById('svgOlhoPainel');
+
+            if (containerOlhoPainel && campoSenhaPainel && svgOlhoPainel) {
+                containerOlhoPainel.addEventListener('click', () => {
+                    if (campoSenhaPainel.getAttribute('type') === 'password') {
+                        campoSenhaPainel.setAttribute('type', 'text');
+                        svgOlhoPainel.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+                    } else {
+                        campoSenhaPainel.setAttribute('type', 'password');
+                        svgOlhoPainel.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnVisaoGeral = document.getElementById('abaVisaoGeral');
+            const btnConfiguracoes = document.getElementById('abaConfiguracoes');
+            const telaVisaoGeral = document.getElementById('conteudoVisaoGeral');
+            const telaConfiguracoes = document.getElementById('conteudoConfiguracoes');
+            const btnCancelar = document.getElementById('btnCancelarEdicao');
+
+            function alternarTela(abaAtiva, abaInativa, mostrarTela, esconderTela) {
+                abaAtiva.classList.add('active');
+                abaInativa.classList.remove('active');
+                mostrarTela.style.display = 'block';
+                esconderTela.style.display = 'none';
+            }
+
+            if (btnVisaoGeral && btnConfiguracoes && telaVisaoGeral && telaConfiguracoes) {
+                btnVisaoGeral.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alternarTela(btnVisaoGeral, btnConfiguracoes, telaVisaoGeral, telaConfiguracoes);
+                });
+
+                btnConfiguracoes.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alternarTela(btnConfiguracoes, btnVisaoGeral, telaConfiguracoes, telaVisaoGeral);
+                });
+
+                if (btnCancelar) {
+                    btnCancelar.addEventListener('click', () => {
+                        alternarTela(btnVisaoGeral, btnConfiguracoes, telaVisaoGeral, telaConfiguracoes);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
