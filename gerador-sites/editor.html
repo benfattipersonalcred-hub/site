@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     ARQUIVO: editor.html
+     DESCRIÇÃO: Editor Visual Avançado (DECISÃO 10) - o coração
+     criativo da plataforma. Permite arrastar elementos de forma
+     livre, editar estilos, camadas, templates, responsividade,
+     preview e salvar em JSON (DECISÃO 07).
+     ============================================================ -->
+<html lang="pt-BR">
+<head>
+    <!-- Metadados básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da página -->
+    <title>Editor — Gerador de Sites</title>
+    <!-- Estilos globais -->
+    <link rel="stylesheet" href="css/global.css">
+    <!-- Estilos do editor -->
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body class="editor-body">
+    <!-- Container principal do editor -->
+    <div class="editor-container">
+
+        <!-- ==================== BARRA SUPERIOR ==================== -->
+        <div class="editor-topo">
+            <!-- Grupo esquerdo: logo + nome do site -->
+            <div class="grupo">
+                <a href="dashboard.html" class="logo" style="color:var(--cor-primaria);font-weight:700;text-decoration:none;">🚀 Editor</a>
+                <input type="text" id="nomeSite" placeholder="Nome do site" value="Meu Site">
+            </div>
+
+<!-- Grupo central: desfazer/refazer + dispositivo -->
+            <div class="grupo">
+                <button class="btn-icone" onclick="desfazer()" title="Desfazer (Ctrl+Z)">↩</button>
+                <button class="btn-icone" onclick="refazer()" title="Refazer (Ctrl+Y)">↪</button>
+                <select id="seletorPaginas" class="seletor-paginas" onchange="trocarPaginaEditor(this.value)" title="Gerenciar páginas"></select>
+                <button class="btn-icone" onclick="abrirGestaoPaginas()" title="Adicionar/renomear páginas">📄</button>
+                <div class="seletor-dispositivo">
+                    <button data-dispositivo="desktop" class="ativo" title="Desktop">🖥️</button>
+                    <button data-dispositivo="tablet" title="Tablet">📱</button>
+                    <button data-dispositivo="mobile" title="Mobile">📲</button>
+                </div>
+            </div>
+
+            <!-- Grupo direito: temas, seo, preview, salvar, publicar -->
+            <div class="grupo">
+                <button class="btn-icone" onclick="abrirTemaGlobal()" title="Temas/Cores globais">🎨</button>
+                <button class="btn-icone" onclick="abrirSeoVisual()" title="SEO visual">🔍</button>
+                <button class="btn-icone" onclick="abrirPreview()">👁 Preview</button>
+                <button class="btn-icone" onclick="salvarSite(false)" style="color:var(--cor-primaria);">💾 Salvar</button>
+                <button class="btn-icone" onclick="salvarSite(true)" style="background:var(--cor-primaria);border-color:transparent;color:#fff;">🚀 Publicar</button>
+            </div>
+        </div>
+
+        <!-- ==================== ÁREA PRINCIPAL ==================== -->
+        <div class="editor-area">
+
+            <!-- ============ PAINEL ESQUERDO ============ -->
+            <div class="painel-esquerdo">
+<!-- Abas do painel -->
+                <div class="painel-abas">
+                    <button class="ativo" onclick="trocarAbaPainel('elementos', this)">🧩 Elementos</button>
+                    <button onclick="trocarAbaPainel('blocos', this)">🧱 Blocos</button>
+                    <button onclick="trocarAbaPainel('camadas', this)">📚 Camadas</button>
+                    <button onclick="trocarAbaPainel('templates', this)">🎨 Templates</button>
+                </div>
+
+                <!-- Aba de elementos -->
+                <div class="painel-conteudo visivel" id="aba-elementos">
+                    <div id="listaElementos"></div>
+                </div>
+
+<!-- Aba de camadas -->
+                <div class="painel-conteudo" id="aba-camadas">
+                    <div id="listaCamadas"></div>
+                </div>
+
+                <!-- Aba de templates -->
+                <div class="painel-conteudo" id="aba-templates">
+                    <div id="listaTemplates"></div>
+                </div>
+
+                <!-- Aba de blocos compostos -->
+                <div class="painel-conteudo" id="aba-blocos">
+                    <div id="listaBlocos"></div>
+                </div>
+            </div>
+
+            <!-- ============ CANVAS CENTRAL ============ -->
+            <div class="canvas-area">
+                <!-- A tela do site (canvas) -->
+                <div class="tela-canvas desktop" id="telaCanvas">
+                    <!-- Elementos são adicionados aqui via JS -->
+                </div>
+            </div>
+
+            <!-- ============ PAINEL DIREITO (propriedades) ============ -->
+            <div class="painel-direito">
+                <div id="painelProps">
+                    <div class="prop-vazio">Selecione um elemento para editar suas propriedades.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== BARRA INFERIOR ==================== -->
+        <div class="editor-rodape">
+<span>💡 Dica: clique em um elemento para editar · arraste para mover · Delete exclui</span>
+            <span id="modoRodape">🔒 Mock Mode ativo</span>
+        </div>
+    </div>
+
+<!-- ==================== MODAL DE PREVIEW ==================== -->
+    <div class="modal-preview" id="modalPreview">
+        <!-- Botão de fechar -->
+        <button class="preview-fechar" onclick="fecharPreview()">✕</button>
+        <!-- Janela do preview -->
+        <div class="preview-janela" id="previewConteudo"></div>
+    </div>
+
+    <!-- ==================== MODAL DE GESTÃO DE PÁGINAS ==================== -->
+    <div class="modal-pequeno" id="modalPaginas">
+        <div class="modal-conteudo">
+            <h3 class="modal-titulo">📄 Páginas do site</h3>
+            <p class="modal-sub">Adicione, renomeie, duplique ou exclua páginas. O menu de navegação se monta automaticamente.</p>
+            <div class="campo">
+                <label class="label" for="novaPaginaNome">Nova página</label>
+                <div class="linha-pix">
+                    <input class="input" type="text" id="novaPaginaNome" placeholder="Nome da nova página">
+                    <button class="btn btn-primary" onclick="adicionarPagina()">Adicionar</button>
+                </div>
+            </div>
+            <div id="listaPaginasModal"></div>
+            <div class="modal-acoes">
+                <button class="btn btn-outline" onclick="fecharModal('modalPaginas')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE TEMA GLOBAL ==================== -->
+    <div class="modal-pequeno" id="modalTema">
+        <div class="modal-conteudo">
+            <h3 class="modal-titulo">🎨 Tema / Cores globais</h3>
+            <p class="modal-sub">Essas cores definem o padrão do site inteiro. Cada elemento pode sobrescrever individualmente.</p>
+            <div class="campo-prop-linha">
+                <div class="prop-grupo">
+                    <label>Cor primária</label>
+                    <input class="prop-cor" type="color" id="temaCorPrimaria" value="#38bdf8" onchange="atualizarTemaGlobal()">
+                </div>
+                <div class="prop-grupo">
+                    <label>Cor de fundo</label>
+                    <input class="prop-cor" type="color" id="temaCorFundo" value="#ffffff" onchange="atualizarTemaGlobal()">
+                </div>
+            </div>
+            <div class="campo-prop-linha">
+                <div class="prop-grupo">
+                    <label>Cor do texto</label>
+                    <input class="prop-cor" type="color" id="temaCorTexto" value="#0f172a" onchange="atualizarTemaGlobal()">
+                </div>
+                <div class="prop-grupo">
+                    <label>Fonte global</label>
+                    <select class="input" id="temaFonte" onchange="atualizarTemaGlobal()">
+                        <option value="Segoe UI">Segoe UI</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Courier New">Courier New</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-acoes">
+                <button class="btn btn-primary" onclick="aplicarTemaGlobal()">Aplicar tema</button>
+                <button class="btn btn-outline" onclick="fecharModal('modalTema')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE SEO VISUAL ==================== -->
+    <div class="modal-pequeno" id="modalSeo">
+        <div class="modal-conteudo">
+            <h3 class="modal-titulo">🔍 SEO visual</h3>
+            <p class="modal-sub">Defina como seu site aparece no Google e nas redes sociais.</p>
+            <div class="campo">
+                <label class="label" for="seoTituloInput">Título (Google)</label>
+                <input class="input" type="text" id="seoTituloInput" placeholder="Título do site">
+            </div>
+            <div class="campo">
+                <label class="label" for="seoDescricaoInput">Descrição</label>
+                <textarea class="input" id="seoDescricaoInput" rows="3" placeholder="Descrição curta"></textarea>
+            </div>
+            <div class="campo">
+                <label class="label" for="seoImagemInput">Imagem de compartilhamento (URL)</label>
+                <input class="input" type="text" id="seoImagemInput" placeholder="https://...">
+            </div>
+            <div class="modal-acoes">
+                <button class="btn btn-primary" onclick="salvarSeoVisual()">Salvar SEO</button>
+                <button class="btn btn-outline" onclick="fecharModal('modalSeo')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE CARRINHO (E-COMMERCE) ==================== -->
+    <div class="modal-pequeno" id="modalCarrinho">
+        <div class="modal-conteudo">
+            <h3 class="modal-titulo">🛒 Carrinho de compras</h3>
+            <div id="conteudoCarrinho"></div>
+            <div class="modal-acoes">
+                <button class="btn btn-primary" onclick="finalizarCompra()">Finalizar compra (Pix)</button>
+                <button class="btn btn-outline" onclick="fecharModal('modalCarrinho')">Continuar comprando</button>
+            </div>
+        </div>
+    </div>
+
+<!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/templates.js"></script>
+    <script src="js/renderizador.js"></script>
+    <script src="js/editor.js"></script>
+    <!-- Recursos avançados do editor (DECISÃO 10 - 8 funcionalidades) -->
+    <script src="js/recursos-avancados.js"></script>
+    <!-- Biblioteca Moveable hospedada localmente (DECISÃO 12) -->
+    <script src="js/vendor/moveable.js"></script>
+    <!-- Integração do Moveable com o editor -->
+    <script src="js/moveable-integracao.js"></script>
+    <script>
+// ======================================================
+        // FUNÇÃO: atualiza o rodapé com o modo de execução
+        // ======================================================
+        function atualizarModoRodape() {
+            // Seleciona o elemento do rodapé
+            const modo = document.getElementById('modoRodape');
+            // Se estiver em Mock Mode (localStorage), mostra isso
+            if (typeof MOCK_MODE !== 'undefined' && MOCK_MODE) {
+                // Informa que está em modo de teste local
+                modo.textContent = '🧪 Mock Mode ativo (dados locais)';
+            } else {
+                // Informa que está conectado ao backend real
+                modo.textContent = '🌐 Modo Real (Apps Script conectado)';
+            }
+        }
+
+// ======================================================
+        // INICIALIZAÇÃO: atualiza o rodapé ao carregar a página
+        // ======================================================
+        // Chama atualizarModoRodape quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', atualizarModoRodape);
+
+        // ======================================================
+        // FUNÇÃO: alterna entre as abas do painel esquerdo
+        // ======================================================
+        function trocarAbaPainel(aba, botao) {
+            // Seleciona todos os botões das abas
+            const botoes = document.querySelectorAll('.painel-abas button');
+            // Remove a classe ativa de todos
+            botoes.forEach(b => b.classList.remove('ativo'));
+            // Adiciona a classe ativa ao botão clicado
+            botao.classList.add('ativo');
+
+            // Seleciona todos os conteúdos
+            const conteudos = document.querySelectorAll('.painel-conteudo');
+            // Esconde todos
+            conteudos.forEach(c => c.classList.remove('visivel'));
+            // Mostra a aba correspondente
+            document.getElementById('aba-' + aba).classList.add('visivel');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     ARQUIVO: dashboard.html
+     DESCRIÇÃO: Painel (dashboard) do cliente logado.
+     Lista os sites do cliente, permite criar/editar e publicar.
+     ============================================================ -->
+<html lang="pt-BR">
+<head>
+    <!-- Metadados básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da página -->
+    <title>Painel — Gerador de Sites</title>
+    <!-- Estilos globais -->
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        /* ======================================================
+           ESTILOS DO DASHBOARD DO CLIENTE
+           ====================================================== */
+        /* Saudação do usuário */
+        .saudacao {
+            /* Margem inferior */
+            margin-bottom: 25px;
+        }
+        /* Título da saudação */
+        .saudacao h2 {
+            /* Cor */
+            color: var(--cor-primaria);
+            /* Margem inferior */
+            margin-bottom: 5px;
+        }
+        /* Texto da saudação */
+        .saudacao p {
+            /* Cor cinza */
+            color: var(--cor-texto-cinza);
+        }
+        /* Cabeçalho da lista de sites */
+        .lista-header {
+            /* Organiza em linha */
+            display: flex;
+            /* Espaça os itens */
+            justify-content: space-between;
+            /* Alinha verticalmente */
+            align-items: center;
+            /* Margem inferior */
+            margin-bottom: 20px;
+        }
+        /* Título da lista */
+        .lista-header h3 {
+            /* Cor */
+            color: #f1f5f9;
+        }
+        /* Grade de sites */
+        .grade-sites {
+            /* Cria a grade */
+            display: grid;
+            /* Colunas responsivas */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            /* Espaçamento */
+            gap: 20px;
+        }
+        /* Card de site */
+        .site-card {
+            /* Fundo do card */
+            background: rgba(255, 255, 255, 0.05);
+            /* Borda */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Cantos */
+            border-radius: var(--raio-borda);
+            /* Padding */
+            padding: 20px;
+            /* Transição */
+            transition: all 0.3s;
+        }
+        /* Efeito hover */
+        .site-card:hover {
+            /* Eleva */
+            transform: translateY(-3px);
+            /* Borda azul */
+            border-color: var(--cor-primaria);
+        }
+        /* Nome do site */
+        .site-card h4 {
+            /* Cor */
+            color: #f1f5f9;
+            /* Margem inferior */
+            margin-bottom: 8px;
+        }
+        /* Status do site */
+        .site-card .status {
+            /* Tamanho */
+            font-size: 0.8em;
+            /* Padding */
+            padding: 4px 10px;
+            /* Cantos */
+            border-radius: 12px;
+            /* Exibe em linha */
+            display: inline-block;
+            /* Margem inferior */
+            margin-bottom: 12px;
+        }
+        /* Status rascunho */
+        .status-rascunho {
+            /* Fundo */
+            background: rgba(250, 204, 21, 0.2);
+            /* Texto */
+            color: #fbbf24;
+        }
+        /* Status publicado */
+        .status-publicado {
+            /* Fundo */
+            background: rgba(16, 185, 129, 0.2);
+            /* Texto */
+            color: #34d399;
+        }
+        /* Ações do card */
+        .site-card .acoes {
+            /* Organiza os botões */
+            display: flex;
+            /* Espaçamento */
+            gap: 8px;
+            /* Margem superior */
+            margin-top: 10px;
+        }
+        /* Botão pequeno */
+        .btn-pequeno {
+            /* Padding menor */
+            padding: 8px 14px;
+            /* Fonte menor */
+            font-size: 0.85em;
+        }
+        /* Estado vazio (sem sites) */
+        .vazio {
+            /* Centraliza */
+            text-align: center;
+            /* Padding */
+            padding: 40px;
+            /* Fundo */
+            background: rgba(255, 255, 255, 0.03);
+            /* Borda */
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            /* Cantos */
+            border-radius: var(--raio-borda);
+            /* Cor */
+            color: var(--cor-texto-cinza);
+        }
+/* Ícone do vazio */
+        .vazio .icone {
+            /* Tamanho */
+            font-size: 3em;
+            /* Exibe bloco */
+            display: block;
+            /* Margem inferior */
+            margin-bottom: 10px;
+        }
+        /* Bloco do plano atual na saudação */
+        .saudacao .plano-atual {
+            /* Organiza em linha */
+            display: flex;
+            /* Alinha verticalmente */
+            align-items: center;
+            /* Espaçamento */
+            gap: 10px;
+            /* Margem superior */
+            margin-top: 8px;
+            /* Flex wrap em telas pequenas */
+            flex-wrap: wrap;
+        }
+        /* Badge do plano atual */
+        .badge-plano {
+            /* Exibe em linha */
+            display: inline-block;
+            /* Fundo */
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            /* Texto branco */
+            color: #fff;
+            /* Fonte menor */
+            font-size: 0.8em;
+            /* Negrito */
+            font-weight: 700;
+            /* Padding */
+            padding: 5px 12px;
+            /* Cantos arredondados */
+            border-radius: 12px;
+            /* Transforma em maiúsculas */
+            text-transform: uppercase;
+        }
+        /* Botão de upgrade */
+        .btn-upgrade {
+            /* Padding menor */
+            padding: 7px 16px;
+            /* Fonte menor */
+            font-size: 0.85em;
+            /* Sem sublinhado */
+            text-decoration: none;
+        }
+        /* Modal de upgrade */
+        .modal-upgrade {
+            /* Fundo translúcido cobrindo a tela */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Fundo escurecido */
+            background: rgba(0, 0, 0, 0.7);
+            /* Centraliza o conteúdo */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            /* Fica acima de tudo */
+            z-index: 1000;
+            /* Padding */
+            padding: 20px;
+        }
+        /* Mostra o modal */
+        .modal-upgrade.visivel {
+            display: flex;
+        }
+        /* Conteúdo do modal */
+        .modal-upgrade .modal-conteudo {
+            /* Fundo */
+            background: #0f172a;
+            /* Borda */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Cantos */
+            border-radius: var(--raio-borda);
+            /* Largura máxima */
+            max-width: 560px;
+            /* Largura total */
+            width: 100%;
+            /* Padding */
+            padding: 30px;
+            /* Centraliza o texto */
+            text-align: center;
+        }
+        /* Título do modal */
+        .modal-upgrade h3 {
+            /* Cor */
+            color: var(--cor-primaria);
+            /* Margem inferior */
+            margin-bottom: 8px;
+        }
+        /* Subtítulo do modal */
+        .modal-upgrade .modal-sub {
+            /* Cor cinza */
+            color: var(--cor-texto-cinza);
+            /* Tamanho */
+            font-size: 0.9em;
+            /* Margem inferior */
+            margin-bottom: 20px;
+        }
+        /* Grade de planos no modal */
+        .modal-upgrade .grade-planos-modal {
+            /* Cria a grade */
+            display: grid;
+            /* Três colunas */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            /* Espaçamento */
+            gap: 12px;
+            /* Margem inferior */
+            margin-bottom: 20px;
+        }
+        /* Card de plano no modal */
+        .modal-upgrade .plano-modal {
+            /* Fundo do card */
+            background: rgba(255, 255, 255, 0.05);
+            /* Borda */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Cantos */
+            border-radius: 10px;
+            /* Padding */
+            padding: 15px;
+            /* Cursor */
+            cursor: pointer;
+            /* Transição */
+            transition: all 0.3s;
+        }
+        /* Hover no card do modal */
+        .modal-upgrade .plano-modal:hover {
+            /* Borda destacada */
+            border-color: var(--cor-primaria);
+        }
+        /* Card selecionado no modal */
+        .modal-upgrade .plano-modal.selecionado {
+            /* Borda destacada */
+            border: 2px solid var(--cor-primaria);
+            /* Fundo azulado */
+            background: rgba(56, 189, 248, 0.1);
+        }
+        /* Nome do plano no modal */
+        .modal-upgrade .plano-modal h4 {
+            /* Cor */
+            color: #f1f5f9;
+            /* Margem inferior */
+            margin-bottom: 4px;
+        }
+        /* Preço do plano no modal */
+        .modal-upgrade .plano-modal .preco {
+            /* Cor */
+            color: var(--cor-primaria);
+            /* Negrito */
+            font-weight: 700;
+            /* Tamanho */
+            font-size: 1.1em;
+        }
+/* Ações do modal */
+        .modal-upgrade .modal-acoes {
+            /* Organiza em linha */
+            display: flex;
+            /* Espaçamento */
+            gap: 10px;
+            /* Centraliza */
+            justify-content: center;
+            /* Quebra linha se preciso */
+            flex-wrap: wrap;
+        }
+        /* ======================================================
+           ESTILOS DO FINANCEIRO E VENDAS DO CLIENTE
+           ====================================================== */
+        /* Bloco da chave Pix */
+        .bloco-pix {
+            /* Fundo */
+            background: rgba(255, 255, 255, 0.05);
+            /* Borda */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Cantos */
+            border-radius: var(--raio-borda);
+            /* Padding */
+            padding: 18px;
+            /* Margem inferior */
+            margin-bottom: 25px;
+        }
+        /* Título do bloco Pix */
+        .bloco-pix h4 {
+            /* Cor */
+            color: #f1f5f9;
+            /* Margem inferior */
+            margin-bottom: 8px;
+        }
+        /* Texto de ajuda da chave Pix */
+        .bloco-pix p {
+            /* Cor */
+            color: var(--cor-texto-cinza);
+            /* Tamanho */
+            font-size: 0.85em;
+            /* Margem inferior */
+            margin-bottom: 10px;
+        }
+        /* Linha da chave Pix (input + botão) */
+        .linha-pix {
+            /* Organiza em linha */
+            display: flex;
+            /* Espaçamento */
+            gap: 10px;
+        }
+        /* Input da chave Pix */
+        .linha-pix input {
+            /* Flex cresce */
+            flex: 1;
+            /* Padding */
+            padding: 10px 12px;
+            /* Fundo */
+            background: rgba(255, 255, 255, 0.05);
+            /* Borda */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* Cantos */
+            border-radius: var(--raio-borda);
+            /* Cor do texto */
+            color: #f1f5f9;
+        }
+        /* Abas do painel do cliente */
+        .painel-abas {
+            /* Organiza os botões */
+            display: flex;
+            /* Espaçamento */
+            gap: 8px;
+            /* Quebra linha */
+            flex-wrap: wrap;
+            /* Margem inferior */
+            margin-bottom: 20px;
+        }
+        /* Botão de aba */
+        .painel-abas button {
+            /* Padding */
+            padding: 9px 16px;
+            /* Fundo */
+            background: rgba(255, 255, 255, 0.05);
+            /* Borda */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Cantos */
+            border-radius: var(--raio-borda);
+            /* Cor */
+            color: var(--cor-texto-cinza);
+            /* Cursor */
+            cursor: pointer;
+            /* Transição */
+            transition: all 0.3s;
+        }
+/* Aba ativa */
+        .painel-abas button.ativo {
+            /* Fundo */
+            background: var(--cor-primaria);
+            /* Texto */
+            color: #fff;
+            /* Borda */
+            border-color: var(--cor-primaria);
+        }
+        /* Tabela de dados (financeiro e vendas) */
+        .tabela {
+            /* Largura total */
+            width: 100%;
+            /* Colapso de bordas */
+            border-collapse: collapse;
+            /* Fundo */
+            background: rgba(255, 255, 255, 0.05);
+            /* Borda */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Cantos */
+            border-radius: var(--raio-borda);
+            /* Esconde o excesso */
+            overflow: hidden;
+        }
+        /* Cabeçalho da tabela */
+        .tabela th {
+            /* Alinhamento à esquerda */
+            text-align: left;
+            /* Padding */
+            padding: 12px;
+            /* Fundo */
+            background: rgba(255, 255, 255, 0.08);
+            /* Cor */
+            color: var(--cor-primaria);
+            /* Tamanho */
+            font-size: 0.85em;
+        }
+        /* Células da tabela */
+        .tabela td {
+            /* Padding */
+            padding: 12px;
+            /* Borda inferior */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            /* Tamanho */
+            font-size: 0.9em;
+        }
+        /* Última linha sem borda */
+        .tabela tr:last-child td {
+            /* Remove borda */
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container central -->
+    <div class="container">
+        <!-- Barra de navegação -->
+        <nav class="navbar">
+            <!-- Logo -->
+            <a href="index.html" class="logo">🚀 Gerador de Sites</a>
+            <!-- Links -->
+            <div class="nav-links">
+                <a href="editor.html">Novo Site</a>
+                <a href="#" onclick="sair(); return false;">Sair</a>
+            </div>
+        </nav>
+
+        <!-- Área dinâmica do dashboard -->
+        <div id="areaDashboard">
+            <!-- Conteúdo carregado via JS -->
+        </div>
+    </div>
+
+    <!-- Modal de upgrade de plano -->
+    <div class="modal-upgrade" id="modalUpgrade">
+        <div class="modal-conteudo">
+            <h3>🚀 Upgrade de Plano</h3>
+            <p class="modal-sub">Escolha o plano ideal para o seu momento.</p>
+            <!-- Grade de planos do modal -->
+            <div class="grade-planos-modal" id="gradePlanosModal"></div>
+            <!-- Ações do modal -->
+            <div class="modal-acoes">
+                <button class="btn btn-primary" onclick="confirmarUpgrade()">Confirmar</button>
+                <button class="btn btn-outline" onclick="fecharUpgrade()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // ======================================================
+        // LÓGICA DO DASHBOARD DO CLIENTE
+        // ======================================================
+
+        // Protege a página (exige login)
+        protegerPagina('login.html');
+
+// Obtém o usuário logado
+        const usuario = obterUsuario();
+
+        // Elemento da área do dashboard
+        const area = document.getElementById('areaDashboard');
+
+        // Plano selecionado no modal de upgrade
+        let planoUpgrade = usuario.PLANO || usuario.plano || 'free';
+
+        // Lista de planos disponíveis (Free/Basic/Pro) - sem Vitalício
+        const PLANOS_DISPONIVEIS = [
+            { tipo: 'free', nome: 'Free', preco: 'R$ 0,00' },
+            { tipo: 'basic', nome: 'Basic', preco: 'R$ 29,90/mês' },
+            { tipo: 'pro', nome: 'Pro', preco: 'R$ 79,90/mês' }
+        ];
+
+        // Abre o modal de upgrade
+        function abrirUpgrade() {
+            // Define o plano atual como selecionado
+            planoUpgrade = usuario.PLANO || usuario.plano || 'free';
+            // Monta a grade de planos do modal
+            montarGradePlanos();
+            // Mostra o modal
+            document.getElementById('modalUpgrade').classList.add('visivel');
+        }
+
+        // Fecha o modal de upgrade
+        function fecharUpgrade() {
+            // Esconde o modal
+            document.getElementById('modalUpgrade').classList.remove('visivel');
+        }
+
+        // Monta a grade de planos dentro do modal
+        function montarGradePlanos() {
+            // Seleciona o container da grade
+            const grade = document.getElementById('gradePlanosModal');
+            // Limpa a grade
+            grade.innerHTML = '';
+            // Percorre os planos disponíveis
+            PLANOS_DISPONIVEIS.forEach(plano => {
+                // Verifica se é o plano selecionado
+                const selecionado = plano.tipo === planoUpgrade ? 'selecionado' : '';
+                // Cria o card do plano
+                const card = document.createElement('div');
+                // Define a classe do card
+                card.className = 'plano-modal ' + selecionado;
+                // Define o conteúdo do card
+                card.innerHTML = `<h4>${plano.nome}</h4><div class="preco">${plano.preco}</div>`;
+                // Configura o clique para selecionar o plano
+                card.addEventListener('click', () => selecionarPlanoUpgrade(plano.tipo));
+                // Adiciona o card à grade
+                grade.appendChild(card);
+            });
+        }
+
+        // Seleciona um plano no modal
+        function selecionarPlanoUpgrade(tipo) {
+            // Atualiza o plano selecionado
+            planoUpgrade = tipo;
+            // Re-monta a grade (para destacar o selecionado)
+            montarGradePlanos();
+        }
+
+        // Confirma o upgrade de plano
+        async function confirmarUpgrade() {
+            // Obtém o ID do cliente
+            const idCliente = usuario.ID || usuario.id;
+            // Se o plano for o mesmo do atual, avisa e fecha
+            const planoAtual = usuario.PLANO || usuario.plano || 'free';
+            if (planoUpgrade === planoAtual) {
+                mostrarToast('Seu plano já é ' + planoAtual, 'info');
+                fecharUpgrade();
+                return;
+            }
+            // Chama a API para atualizar o plano
+            const resposta = await apiAtualizarPlano(idCliente, planoUpgrade);
+            // Se atualizou com sucesso
+            if (resposta.sucesso) {
+                // Atualiza o usuário logado com o novo plano
+                usuario.PLANO = resposta.dados.plano || planoUpgrade;
+                // Salva a sessão atualizada
+                salvarSessao(obterToken(), usuario);
+                // Fecha o modal
+                fecharUpgrade();
+                // Mostra a mensagem de sucesso
+                mostrarToast('Plano atualizado para ' + planoUpgrade.toUpperCase() + '!', 'sucesso');
+                // Recarrega o dashboard para refletir o novo plano
+                carregarDashboard();
+            } else {
+                // Mostra o erro
+                mostrarToast(resposta.mensagem, 'erro');
+            }
+        }
+
+// Formata um valor em reais
+        function formatarReal(valor) {
+            // Converte para número e usa toLocaleString
+            return (Number(valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Salva a chave Pix do cliente no localStorage
+        function salvarChavePix() {
+            // Obtém o valor do input
+            const chave = document.getElementById('chavePixInput').value.trim();
+            // Salva a chave Pix do usuário logado
+            const chaves = lerLocal('gerador_sites_pix') || {};
+            // Obtém o id do cliente
+            const idCliente = usuario.ID || usuario.id;
+            // Armazena a chave para o cliente
+            chaves[idCliente] = chave;
+            // Salva no localStorage
+            salvarLocal('gerador_sites_pix', chaves);
+            // Informa o sucesso
+            mostrarToast('Chave Pix salva!', 'sucesso');
+        }
+
+        // Carrega os dados do dashboard
+        async function carregarDashboard() {
+            // Se não houver usuário, sai
+            if (!usuario) {
+                irPara('login.html');
+                return;
+            }
+
+            // Obtém o plano atual do usuário
+            const planoAtual = usuario.PLANO || usuario.plano || 'free';
+            // Obtém o id do cliente
+            const idCliente = usuario.ID || usuario.id;
+            // Obtém a chave Pix salva do cliente
+            const chaves = lerLocal('gerador_sites_pix') || {};
+            const chavePix = chaves[idCliente] || '';
+
+            // Monta a saudação e estrutura com abas
+            area.innerHTML = `
+                <div class="saudacao">
+                    <h2>Olá, ${usuario.NOME_COMPLETO || usuario.nome || 'Cliente'} 👋</h2>
+                    <p>Status: <strong>${usuario.STATUS || usuario.status || 'ativo'}</strong></p>
+                    <div class="plano-atual">
+                        <span class="badge-plano">${planoAtual}</span>
+                        <a href="#" class="btn btn-outline btn-upgrade" onclick="abrirUpgrade(); return false;">⬆ Upgrade de plano</a>
+                    </div>
+                </div>
+
+                <!-- Chave Pix para receber vendas do site (DECISÃO 09) -->
+                <div class="bloco-pix">
+                    <h4>💳 Chave Pix — Receber vendas do seu site</h4>
+                    <p>Quando alguém comprar no seu site, o valor cai direto na sua conta via esta chave Pix.</p>
+                    <div class="linha-pix">
+                        <input type="text" id="chavePixInput" placeholder="Digite sua chave Pix (CPF, e-mail ou telefone)" value="${chavePix}">
+                        <button class="btn btn-primary" onclick="salvarChavePix()">Salvar</button>
+                    </div>
+                </div>
+
+                <!-- Abas do painel -->
+                <div class="painel-abas">
+                    <button class="ativo" id="abaSitesBtn" onclick="trocarAbaCliente('sites')">🌐 Meus Sites</button>
+                    <button id="abaFinanceiroBtn" onclick="trocarAbaCliente('financeiro')">💰 Financeiro</button>
+                    <button id="abaVendasBtn" onclick="trocarAbaCliente('vendas')">🛒 Minhas Vendas</button>
+                </div>
+                <div id="conteudoCliente"></div>
+            `;
+
+            // Guarda o id do cliente para as abas
+            area._idCliente = idCliente;
+            // Exibe a aba de sites por padrão
+            trocarAbaCliente('sites');
+        }
+
+        // Alterna entre as abas do cliente
+        function trocarAbaCliente(aba) {
+            // Atualiza os botões ativos
+            document.getElementById('abaSitesBtn').classList.toggle('ativo', aba === 'sites');
+            document.getElementById('abaFinanceiroBtn').classList.toggle('ativo', aba === 'financeiro');
+            document.getElementById('abaVendasBtn').classList.toggle('ativo', aba === 'vendas');
+            // Conteúdo da aba selecionada
+            const conteudo = document.getElementById('conteudoCliente');
+            // Se for a aba de sites
+            if (aba === 'sites') {
+                // Renderiza a lista de sites
+                renderSites(conteudo, area._idCliente);
+            } else if (aba === 'financeiro') {
+                // Renderiza o financeiro do cliente
+                renderFinanceiroCliente(conteudo, area._idCliente);
+            } else {
+                // Renderiza as vendas do cliente
+                renderVendasCliente(conteudo, area._idCliente);
+            }
+        }
+
+        // Renderiza a lista de sites do cliente
+        async function renderSites(conteudo, idCliente) {
+            // Busca os sites do cliente
+            const resposta = await apiListarSites(idCliente);
+            // Se não houver sites
+            if (!resposta.sucesso || resposta.dados.length === 0) {
+                // Mostra o estado vazio
+                conteudo.innerHTML = `
+                    <div class="vazio">
+                        <span class="icone">🌐</span>
+                        <p>Você ainda não tem sites.</p>
+                        <p style="margin-top:10px;"><a href="editor.html" class="btn btn-primary">Criar meu primeiro site</a></p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Monta a grade de sites
+            let html = '<div class="grade-sites">';
+            // Percorre os sites
+            resposta.dados.forEach(site => {
+// Obtém o id e nome (aceita mock ou real)
+                const idSite = site.idSite || site.ID_SITE;
+                const nome = site.nome || site.NOME_SITE || 'Sem nome';
+                const status = site.status || site.STATUS || 'rascunho';
+                // Define a classe do status
+                const classeStatus = status === 'publicado' ? 'status-publicado' : 'status-rascunho';
+                // Monta o card do site
+                html += `
+                    <div class="site-card">
+                        <h4>${nome}</h4>
+                        <span class="status ${classeStatus}">${status}</span>
+                        <div class="acoes">
+                            <a href="editor.html?id=${idSite}" class="btn btn-outline btn-pequeno">Editar</a>
+                            <a href="site.html?id=${idSite}" target="_blank" class="btn btn-outline btn-pequeno">Ver</a>
+                        </div>
+                    </div>
+                `;
+            });
+            // Fecha a grade
+            html += '</div>';
+            // Insere a grade no conteúdo
+            conteudo.innerHTML = html;
+        }
+
+        // Renderiza o financeiro do cliente
+        async function renderFinanceiroCliente(conteudo, idCliente) {
+            // Busca as transações do cliente
+            const resp = await apiListarTransacoes(idCliente);
+            // Obtém as transações
+            const transacoes = resp.sucesso ? (resp.dados || []) : [];
+            // Monta o HTML
+let html = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+                    <h3 style="color:#f1f5f9;margin:0;">Minhas Mensalidades</h3>
+                </div>
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Plano</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th>Método</th>
+                            <th>Vencimento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            // Se não houver transações
+            if (transacoes.length === 0) {
+                // Mostra mensagem vazia
+                html += `<tr><td colspan="6" style="text-align:center;color:var(--cor-texto-cinza);">Nenhuma transação registrada.</td></tr>`;
+            } else {
+                // Percorre as transações
+                transacoes.forEach(t => {
+                    // Obtém os campos (aceita mock ou real)
+                    const tipo = t.TIPO || t.tipo || 'mensalidade';
+                    const plano = t.PLANO || t.plano || 'free';
+                    const valor = t.VALOR || t.valor || 0;
+                    const status = t.STATUS_PAGAMENTO || t.statusPagamento || 'pendente';
+                    const metodo = t.METODO || t.metodo || 'Pix';
+                    const vencimento = t.DATA_VENCIMENTO || t.dataVencimento || '—';
+                    // Define a cor do status
+                    const cor = status === 'pago' ? '#34d399' : status === 'inadimplente' ? '#f87171' : '#fbbf24';
+                    // Monta a linha
+                    html += `
+                        <tr>
+                            <td>${tipo}</td>
+                            <td>${plano}</td>
+                            <td>${formatarReal(valor)}</td>
+                            <td style="color:${cor};">${status}</td>
+                            <td>${metodo}</td>
+                            <td>${vencimento}</td>
+                        </tr>
+                    `;
+                });
+            }
+            // Fecha a tabela
+            html += '</tbody></table>';
+            // Insere no conteúdo
+            conteudo.innerHTML = html;
+        }
+
+        // Renderiza as vendas do cliente
+        async function renderVendasCliente(conteudo, idCliente) {
+            // Busca as vendas do cliente
+            const resp = await apiListarVendas(idCliente);
+            // Obtém as vendas
+            const vendas = resp.sucesso ? (resp.dados || []) : [];
+            // Monta o HTML
+            let html = `
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+                    <h3 style="color:#f1f5f9;margin:0;">Minhas Vendas</h3>
+                    <span style="color:var(--cor-texto-cinza);font-size:0.9em;">Recebimentos via Pix</span>
+                </div>
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>Produto/Serviço</th>
+                            <th>Valor</th>
+                            <th>Comprador</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            // Se não houver vendas
+            if (vendas.length === 0) {
+                // Mostra mensagem vazia
+                html += `<tr><td colspan="5" style="text-align:center;color:var(--cor-texto-cinza);">Nenhuma venda registrada ainda.</td></tr>`;
+            } else {
+                // Percorre as vendas
+                vendas.forEach(v => {
+                    // Obtém os campos (aceita mock ou real)
+                    const produto = v.PRODUTO_SERVICO || v.produtoServico || '—';
+                    const valor = v.VALOR || v.valor || 0;
+                    const comprador = v.CLIENTE_FINAL || v.clienteFinal || '—';
+                    const status = v.STATUS_PAGAMENTO || v.statusPagamento || 'pendente';
+                    const data = v.DATA || v.data || '—';
+                    // Define a cor do status
+                    const cor = status === 'pago' ? '#34d399' : '#fbbf24';
+                    // Monta a linha
+                    html += `
+                        <tr>
+                            <td>${produto}</td>
+                            <td>${formatarReal(valor)}</td>
+                            <td>${comprador}</td>
+                            <td style="color:${cor};">${status}</td>
+                            <td>${data}</td>
+                        </tr>
+                    `;
+                });
+            }
+            // Fecha a tabela
+            html += '</tbody></table>';
+            // Insere no conteúdo
+            conteudo.innerHTML = html;
+        }
+
+        // Carrega o dashboard ao iniciar
+        carregarDashboard();
+    </script>
+</body>
+</html>

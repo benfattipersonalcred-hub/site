@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     ARQUIVO: site.html
+     DESCRIÇÃO: Renderiza o site do cliente a partir do JSON.
+     Acesse via ?id=X - o JS busca o JSON (Apps Script ou mock).
+     (DECISÃO 06 - renderização dinâmica no GitHub Pages)
+     ============================================================ -->
+<html lang="pt-BR">
+<head>
+    <!-- Metadados básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta tags de SEO (atualizadas dinamicamente pelo JS) -->
+    <meta name="description" id="metaDescricao" content="">
+    <meta property="og:title" id="ogTitulo" content="">
+    <meta property="og:description" id="ogDescricao" content="">
+    <meta property="og:image" id="ogImagem" content="">
+<!-- Título é definido dinamicamente pelo JS -->
+    <title>Meu Site — Gerador de Sites</title>
+    <!-- Estilos da renderização do site do cliente -->
+    <link rel="stylesheet" href="css/site.css">
+    <style>
+        /* Reset básico para a renderização */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Corpo da renderização */
+        body {
+            /* Fonte padrão */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Fundo claro */
+            background: #ffffff;
+            /* Cor do texto */
+            color: #1e293b;
+        }
+        /* Container do site renderizado */
+        #container-site {
+            /* Posição relativa para elementos absolutos */
+            position: relative;
+            /* Largura total */
+            width: 100%;
+            /* Altura mínima da tela */
+            min-height: 100vh;
+            /* Fundo claro */
+            background: #ffffff;
+        }
+        /* Mensagem de carregando */
+        #carregando {
+            /* Centraliza */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Altura da tela */
+            height: 100vh;
+            /* Cor do texto */
+            color: #64748b;
+            /* Fonte */
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mensagem de carregamento -->
+    <div id="carregando">Carregando site...</div>
+
+    <!-- Container onde o site será desenhado -->
+    <div id="container-site" style="display:none;"></div>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/renderizador.js"></script>
+    <script>
+        // ======================================================
+        // CARREGAMENTO E RENDERIZAÇÃO DO SITE
+        // ======================================================
+
+        // Executa ao carregar a página
+        window.addEventListener('load', async () => {
+            // Obtém o id do site da URL
+            const idSite = lerParamUrl('id');
+
+            // Elementos da página
+            const carregando = document.getElementById('carregando');
+            const container = document.getElementById('container-site');
+
+            // Se não houver id, mostra um site teste/demo
+            if (!idSite) {
+                // Monta um site demo com alguns elementos
+                const siteDemo = {
+                    idSite: 'demo',
+                    nome: 'Site de Demonstração',
+                    elementos: [
+                        { tipo: 'titulo', id: 'el1', texto: 'Bem-vindo ao Gerador de Sites!', pos: { desktop: { x: 40, y: 40, w: 500, h: 60 } }, estilo: { corTexto: '#0f172a', tamanhoFonte: 40, grossura: '700' } },
+                        { tipo: 'paragrafo', id: 'el2', texto: 'Este é um exemplo de site criado com o editor visual. Use ?id=SEU_ID na URL para carregar um site salvo.', pos: { desktop: { x: 40, y: 120, w: 550, h: 80 } }, estilo: { corTexto: '#475569', tamanhoFonte: 18 } },
+                        { tipo: 'botao', id: 'el3', texto: 'Clique aqui', pos: { desktop: { x: 40, y: 240, w: 160, h: 50 } }, estilo: { corFundo: '#38bdf8', corTexto: '#ffffff', raioBorda: 10 } }
+                    ]
+                };
+                // Esconde o carregando
+                carregando.style.display = 'none';
+                // Mostra o container
+                container.style.display = 'block';
+                // Renderiza o site demo
+                renderizarSite(container, siteDemo.elementos, 'desktop');
+                return;
+            }
+
+            // Busca o site salvo pelo id
+            const resposta = await apiBuscarSite(idSite);
+
+            // Se não achou o site
+            if (!resposta.sucesso) {
+                // Mostra a mensagem de erro
+                carregando.textContent = 'Site não encontrado.';
+                return;
+            }
+
+            // Obtém o site retornado
+            const site = resposta.dados;
+            // Obtém o JSON da estrutura (aceita mock e backend real)
+            const jsonEstrutura = site.json || site.JSON_ESTRUTURA || '';
+            // Converte o JSON da estrutura (se for string)
+            let elementos = jsonEstrutura;
+            // Se for string, converte para objeto
+            if (typeof elementos === 'string') {
+                try {
+                    // Converte o JSON string para objeto
+                    elementos = jsonEstrutura ? JSON.parse(jsonEstrutura) : [];
+                } catch (e) {
+                    // Se der erro, usa lista vazia
+                    elementos = [];
+                }
+            }
+            // Garante que seja um array (ou objeto com paginas)
+            if (!Array.isArray(elementos) && !(elementos && elementos.paginas)) elementos = [];
+
+            // Obtém o nome do site (aceita mock e backend real)
+            const nomeSite = site.nome || site.NOME_SITE || 'Meu Site';
+            // Obtém o SEO título (aceita mock e backend real)
+            const seoTitulo = site.seoTitulo || site.SEO_TITULO || nomeSite;
+            // Obtém o SEO descrição (aceita mock e backend real)
+            const seoDescricao = site.seoDescricao || site.SEO_DESCRICAO || '';
+            // Obtém o SEO imagem (aceita mock e backend real)
+            const seoImagem = site.seoImagem || site.SEO_IMAGEM || '';
+            // Obtém o tema de cores (aceita mock e backend real)
+            const temaCores = parseTemaCoresSite(site.temaCores || site.TEMA_CORES);
+
+            // ======================================================
+            // SEO DINÂMICO (Etapa 2 - meta tags)
+            // Atualiza o título e as meta tags do head
+            // ======================================================
+            // Atualiza o título da aba
+            document.title = seoTitulo + ' — Gerador de Sites';
+            // Atualiza a meta description
+            const metaDesc = document.getElementById('metaDescricao');
+            // Se a meta existir, define o conteúdo
+            if (metaDesc) metaDesc.setAttribute('content', seoDescricao);
+            // Atualiza a meta og:title
+            const ogTitulo = document.getElementById('ogTitulo');
+            // Se a meta existir, define o conteúdo
+            if (ogTitulo) ogTitulo.setAttribute('content', seoTitulo);
+            // Atualiza a meta og:description
+            const ogDesc = document.getElementById('ogDescricao');
+            // Se a meta existir, define o conteúdo
+            if (ogDesc) ogDesc.setAttribute('content', seoDescricao);
+            // Atualiza a meta og:image
+            const ogImg = document.getElementById('ogImagem');
+            // Se a meta existir, define o conteúdo
+            if (ogImg) ogImg.setAttribute('content', seoImagem);
+
+            // ======================================================
+            // MÚLTIPLAS PÁGINAS (Etapa 1)
+            // Se o JSON for um objeto com "paginas", monta a estrutura
+            // completa com nome e tema para o renderizador
+            // ======================================================
+            // Se for objeto com páginas
+            if (elementos && !Array.isArray(elementos) && elementos.paginas) {
+                // Adiciona o nome e o tema à estrutura
+                elementos.nome = nomeSite;
+                // Adiciona o tema de cores à estrutura
+                elementos.temaCores = temaCores;
+            }
+
+            // Esconde o carregando
+            carregando.style.display = 'none';
+            // Mostra o container
+            container.style.display = 'block';
+            // Renderiza os elementos do site (aceita array ou objeto com paginas)
+            renderizarSite(container, elementos || [], 'desktop');
+        });
+    </script>
+</body>
+</html>
